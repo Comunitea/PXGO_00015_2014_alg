@@ -31,11 +31,14 @@
     'website': 'http://www.comunitea.com',
     'depends' : ['mrp',
                  'stock',
+                 'sale_stock',
                  'product_expiry',
                  'mrp_automatic_lot',
+                 'sale_production_lot',
                  'stock_picking_valued'],
     'data': ['partner_view.xml',
-             'product_view.xml'
+             'product_view.xml',
+             'report/sale_report_view.xml'
              ],
     'demo': [],
     'test': [],
