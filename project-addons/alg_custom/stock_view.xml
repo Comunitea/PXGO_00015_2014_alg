@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="search_product_lot_filter" model="ir.ui.view">
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.search_product_lot_filter"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="after">
+                    <field name="warehouse_id" widget="selection" context="{'warehouse_id': self}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

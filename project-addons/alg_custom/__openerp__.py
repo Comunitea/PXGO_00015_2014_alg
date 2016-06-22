@@ -38,6 +38,7 @@
                  'stock_picking_valued'],
     'data': ['partner_view.xml',
              'product_view.xml',
+             'stock_view.xml',
              'report/sale_report_view.xml'
              ],
     'demo': [],

@@ -1,13 +1,13 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#   * alg_custom
+#	* alg_custom
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-25 15:39+0000\n"
-"PO-Revision-Date: 2016-05-25 15:39+0000\n"
+"POT-Creation-Date: 2016-06-22 17:03+0000\n"
+"PO-Revision-Date: 2016-06-22 17:03+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,9 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: alg_custom
-#: model:ir.actions.act_window,name:alg_custom.action_see_lots
-#: view:product.product:0
-msgid "Lotes"
-msgstr "Lotes"
+#: model:ir.model,name:alg_custom.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
 
 #. module: alg_custom
 #: view:sale.report:0
@@ -28,9 +27,14 @@ msgid "Country"
 msgstr "País"
 
 #. module: alg_custom
-#: model:ir.model,name:alg_custom.model_stock_move
-msgid "Stock Move"
-msgstr "Movimiento de existencias"
+#: field:stock.production.lot,warehouse_id:0
+msgid "Warehouse"
+msgstr "Almacén"
+
+#. module: alg_custom
+#: model:ir.model,name:alg_custom.model_stock_production_lot
+msgid "Serial Number"
+msgstr "Nº de serie"
 
 #. module: alg_custom
 #: view:sale.report:0
@@ -42,3 +46,10 @@ msgstr "Lote"
 #: model:ir.model,name:alg_custom.model_sale_report
 msgid "Sales Orders Statistics"
 msgstr "Estadísticas pedidos de venta"
+
+#. module: alg_custom
+#: model:ir.actions.act_window,name:alg_custom.action_see_lots
+#: view:product.product:0
+msgid "Lotes"
+msgstr "Lotes"
+

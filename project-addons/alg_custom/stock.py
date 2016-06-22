@@ -21,6 +21,7 @@
 ##############################################################################
 
 from openerp.osv import fields, orm
+import openerp.addons.decimal_precision as dp
 
 
 class stock_move(orm.Model):
@@ -89,3 +90,90 @@ class stock_move(orm.Model):
                 production.write({'move_lines': [4, new_moves]})
 
             return True
+
+
+class StockProductionLot(orm.Model):
+
+    _inherit = "stock.production.lot"
+
+    def _get_locations_fom_warehouse(self, cr, uid, warehouse_id, 
+                                     context=None):
+        res = []
+        stock_locs = set()
+        wh_obj = self.pool.get('stock.warehouse').browse(cr, uid,
+                                                         warehouse_id,
+                                                         context=context)
+        if wh_obj.lot_input_id:
+            stock_locs.add(wh_obj.lot_input_id.id)
+        if wh_obj.lot_stock_id:
+            stock_locs.add(wh_obj.lot_stock_id.id)
+        if wh_obj.lot_output_id:
+            stock_locs.add(wh_obj.lot_output_id.id)
+
+        stock_locs = list(stock_locs)
+        domain = [('id', 'child_of', stock_locs), ('usage', '=', 'internal')]
+        res = self.pool.get('stock.location').search(cr, uid, domain,
+                                                     context=context)
+        return res
+
+    def _get_stock(self, cr, uid, ids, field_name, arg, context=None):
+        """ Gets stock of products for locations
+        @return: Dictionary of values
+        """
+        if context is None:
+            context = {}
+        if 'location_id' not in context:
+            locations = self.pool.get('stock.location').search(cr, uid, [('usage', '=', 'internal')], context=context)
+        else:
+            locations = context['location_id'] and [context['location_id']] or []
+
+        if context.get('warehouse_id', False):
+            wh_id = context['warehouse_id']
+            locations = self._get_locations_fom_warehouse(cr, uid, wh_id,
+                                                          context=context)
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+
+        res = {}.fromkeys(ids, 0.0)
+        if locations:
+            cr.execute('''select
+                    prodlot_id,
+                    sum(qty)
+                from
+                    stock_report_prodlots
+                where
+                    location_id IN %s and prodlot_id IN %s group by prodlot_id''',(tuple(locations),tuple(ids),))
+            res.update(dict(cr.fetchall()))
+
+        return res
+
+    def _stock_search(self, cr, uid, obj, name, args, context=None):
+        """ Searches Ids of products
+        @return: Ids of locations
+        """
+        locations = self.pool.get('stock.location').search(cr, uid, [('usage', '=', 'internal')])
+
+        if context.get('warehouse_id', False):
+            wh_id = context['warehouse_id']
+            locations = self._get_locations_fom_warehouse(cr, uid, wh_id,
+                                                          context=context)
+        cr.execute('''select
+                prodlot_id,
+                sum(qty)
+            from
+                stock_report_prodlots
+            where
+                location_id IN %s group by prodlot_id
+            having  sum(qty) '''+ str(args[0][1]) + str(args[0][2]),(tuple(locations),))
+        res = cr.fetchall()
+        ids = [('id', 'in', map(lambda x: x[0], res))]
+        return ids
+
+    _columns = {
+        'warehouse_id': fields.dummy(string='Warehouse',
+                                     relation='stock.warehouse',
+                                     type='many2one'),
+         'stock_available': fields.function(_get_stock, fnct_search=_stock_search, type="float", string="Available", select=True,
+            help="Current quantity of products with this Serial Number available in company warehouses",
+            digits_compute=dp.get_precision('Product Unit of Measure')),
+    }
