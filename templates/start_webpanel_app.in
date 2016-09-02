@@ -1,0 +1,8 @@
+#!/bin/sh
+cd ${parts.buildout.directory}/bin
+export PYTHONPATH="$${PYTHONPATH}:${parts.buildout.directory}/project-addons/mrp_webpanel_app"
+for d in ${parts.buildout.directory}/eggs/*; do
+    export PYTHONPATH="$${PYTHONPATH}:"$$d
+done
+# ./py ../project-addons/mrp_webpanel_app/manage.py syncdb
+./py ../project-addons/mrp_webpanel_app/manage.py runserver 0.0.0.0:8000

@@ -194,10 +194,10 @@ ENABLE_ERP = True
 
 #ERP_CONF = "/opt/Proyectos/openerp/algamar/server/install/openerp-server.conf"
 #ERP_PATH = "/opt/Proyectos/openerp/algamar/server/"
-ERP_CONF = "/home/santi/odoo/ALGAMAR/server/install/openerp-server.conf"
-ERP_PATH = "/home/santi/odoo/ALGAMAR/server/"
+ERP_CONF = "/opt/projects/algamar/etc/openerp.cfg"
+ERP_PATH = "/opt/projects/algamar/parts/openerp/"
 ERP_UN = 'admin'
 ERP_PW = 'admin'
 #ERP_DB = 'algamar_prod'
 
-ERP_DB = 'algamar_26_01'
+ERP_DB = 'algamar010916'
