@@ -678,6 +678,7 @@ def etiquetas (request, id):
     context={}
     oerp_ctx = {'lang': 'es_ES'}
     pr_id = int(id)
+    response = HttpResponse('<script type="text/javascript">window.close()</script>')
     if request.method == 'POST':
         from erp import POOL, DB, USER
         cursor = DB.cursor()
@@ -719,12 +720,13 @@ def etiquetas (request, id):
 
         except Exception as e:
             return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");</script>')
+            response = HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");</script>')
             pass
         finally:
             cursor.commit()
             cursor.close()
             return response
-            #return HttpResponse('<script type="text/javascript">window.close()</script>')
+            # return HttpResponse('<script type="text/javascript">window.close()</script>')
     else:
 
         template = loader.get_template('conector/etiquetas.html')
