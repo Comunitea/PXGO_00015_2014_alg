@@ -586,6 +586,18 @@ def cambiar_cantidad(request, id):
             cursor.commit()
             cursor.close()
 
+def validateDateEs(date):
+    """
+    Funcion para validar una fecha en formato:
+        dd/mm/yyyy, dd/mm/yy, d/m/yy
+    """
+    for format in ['%d/%m/%Y', '%d/%m/%y']:
+        try:
+            result = time.strptime(date, format)
+            return True
+        except:
+            pass
+    return False
 
 def cambiar_fecha(request, id):
     pr_id = int(id)
@@ -596,15 +608,21 @@ def cambiar_fecha(request, id):
         cursor = DB.cursor()
         prod_obj = POOL.get('stock.move')
         lot_obj = POOL.get('stock.production.lot')
+        print_format_error = False
         try:
-            lot_obj.write(cursor, USER, [pr_id], {'use_date': request.POST.get("use_date")}, oerp_ctx)
+            date_str = request.POST.get("use_date")
+            if not validateDateEs(date_str):
+                print_format_error = True
+            else:
+                lot_obj.write(cursor, USER, [pr_id], {'use_date': date_str}, oerp_ctx)
         except Exception as e:
             return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/producto/'+id+'/");window.close();</script>')
             pass
         finally:
             cursor.commit()
             cursor.close()
-
+            if print_format_error:
+                return HttpResponse('<script type="text/javascript">window.alert("ERROR: El formato de la fecha debe ser dd/mm/aaaa");opener.location.reload();window.close();</script>')
             return HttpResponse('<script type="text/javascript">opener.location.reload();window.close();</script>')
     else:
 

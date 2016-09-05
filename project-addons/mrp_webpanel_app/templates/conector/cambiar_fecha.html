@@ -40,7 +40,7 @@
                     </tr>
                      <tr>
                         <td>{{ prodlot.name }} </td>
-                         <td><input type="date" value="{{ prodlot.use_date|parse_date:"%Y-%m-%d %H:%M:%S"|date:"d/m/Y" }}" name="use_date"/></td>
+                         <td><input value="{{ prodlot.use_date|parse_date:"%Y-%m-%d %H:%M:%S"|date:"d/m/Y" }}" name="use_date"/></td>
                     </tr>
 
                 </table>
