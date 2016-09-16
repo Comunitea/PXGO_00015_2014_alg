@@ -61,10 +61,26 @@ class stock_move(orm.Model):
 
                         ## ADDED FOR mrp_automatic_lot and tranfer the lot to the products to produce for transfering
                         #  the name to the produced lot
+                        # import ipdb; ipdb.set_trace()
                         if production.product_id.transfer_lot:
                             for to_produce in production.move_created_ids:
-                                if to_produce.prodlot_id:
-                                    lot_obj.write(cr, uid, to_produce.prodlot_id.id, {'name': lot.name})
+                                new_lot_id = False
+                                lot_obj = self.pool.get('stock.production.lot')
+                                domain = [
+                                    ('product_id', '=', to_produce.product_id.id),
+                                    ('name', '=', lot.name),
+                                    ('language', '=', lot.language.id),
+                                ]
+                                exist_lot_ids = lot_obj.search(cr, uid, domain)
+                                if exist_lot_ids:
+                                    new_lot_id = exist_lot_ids[0]
+                                else:
+                                    new_lot_id = lot_obj.copy(cr, uid, lot.id,
+                                                               {'product_id': to_produce.product_id.id,
+                                                                'name': lot.name,
+                                                                'language': lot.language.id})
+                                to_produce.write({'prodlot_id': new_lot_id})
+
                         if production.product_id.transfer_lot_date:
                             for to_produce in production.move_created_ids:
                                 if to_produce.prodlot_id:
@@ -173,7 +189,13 @@ class StockProductionLot(orm.Model):
         'warehouse_id': fields.dummy(string='Warehouse',
                                      relation='stock.warehouse',
                                      type='many2one'),
-         'stock_available': fields.function(_get_stock, fnct_search=_stock_search, type="float", string="Available", select=True,
+        'stock_available': fields.function(_get_stock, fnct_search=_stock_search, type="float", string="Available", select=True,
             help="Current quantity of products with this Serial Number available in company warehouses",
             digits_compute=dp.get_precision('Product Unit of Measure')),
+        'active': fields.boolean('Active')
+
+    }
+
+    _defaults = {
+        'active': True
     }
