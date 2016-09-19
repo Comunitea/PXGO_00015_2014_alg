@@ -200,4 +200,4 @@ ERP_UN = 'admin'
 ERP_PW = 'admin'
 #ERP_DB = 'algamar_prod'
 
-ERP_DB = 'algamar130916'
+ERP_DB = 'algamar190916'

@@ -20,6 +20,8 @@ def parse_date(date_string, format):
 
     """
     try:
+        if not date_string:
+            return ''
         return datetime.strptime(date_string, format)
     except ValueError:
         return None
