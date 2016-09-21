@@ -20,9 +20,6 @@
             var newWindow = window.open('/static/kg_mov.html', 'name', 'height=500,width=600');
             //document.write(document.getElementById('kg_mov').value);
             //~ document.getElementById('kg_mov').value = newWindow;
-
-
-        }
    </script>
 {% endblock js %}
 
@@ -57,7 +54,7 @@
                 {% if tarea.note %}{{ tarea.note }}{% endif %}
             </textarea-->
 
-            <textarea name="note"  id="multi1">
+            <textarea name="note"  id="multi1" rows="10" cols="80" style="padding:0px;">
                 {% if tarea.note %}{{ tarea.note }}{% endif %}
             </textarea>
         </div>
@@ -75,7 +72,12 @@
             <input type="submit" value="Guardar" name="accion" class="btn btn-primary"/>
         {% endif %}
         {% if tarea.state == "open" %}
-            <input type="button" value="Finalizar" name="accion" class="btn btn-success" onclick="popupUploadForm()"/>
+            {% if tarea.product_id.clean_part %}
+                <input type="submit" value="Finalizar parte de limpieza" name="accion" class="btn btn-success"/>
+            {% endif %}
+            {% if not tarea.product_id.clean_part %}
+                <input type="button" value="Finalizar" name="accion" class="btn btn-success" onclick="popupUploadForm()"/>
+            {% endif %}
             <input type="submit" value="Guardar" name="accion" class="btn btn-primary"/>
         {% endif %}
 

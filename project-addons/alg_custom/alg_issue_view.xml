@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="alg_issue_tree" model="ir.ui.view">
+            <field name="name">alg.issue.tree</field>
+            <field name="model">alg.issue</field>
+            <field name="arch" type="xml">
+                <tree string="Issues">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="alg_issue_form" model="ir.ui.view">
+            <field name="name">alg.issue.form</field>
+            <field name="model">alg.issue</field>
+            <field name="arch" type="xml">
+                <form string="Issues" version="7.0">
+                        <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="type"/>
+                            <field name="notes"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="alg_issue_search" model="ir.ui.view">
+            <field name="name">alg.issue.search</field>
+            <field name="model">alg.issue</field>
+            <field name="arch" type="xml">
+                <search string="Activities">
+                    <field name="name"/>
+                    <filter string="Production Issues" icon="terp-go-month" domain="[('type', '=', 'production')]" context="{'group_by':'date'}"/>
+                    <filter string="Machine Issues" icon="terp-go-month" domain="[('type', '=', 'machine')]" context="{'group_by':'date'}"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Type" icon="terp-accessories-archiver" domain="[]" context="{'group_by':'type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="act_alg_issue" model="ir.actions.act_window">
+            <field name="name">Issues</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">alg.issue</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="alg_issue_search"/>
+        </record>
+
+        <menuitem id="menu_alg_issues" string="Issues" parent="hr_attendance.menu_hr_time_tracking" action="act_alg_issue"/>
+
+    </data>
+</openerp>

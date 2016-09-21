@@ -20,8 +20,13 @@
 #
 ##############################################################################
 
-from . import stock
-from . import report
-from . import product
-from . import hr_task
-from . import alg_issue
+from openerp.osv import fields, orm
+
+
+class ProductProduct(orm.Model):
+
+    _inherit = "product.product"
+
+    _columns = {
+        'clean_part': fields.boolean('Clean Part product')
+    }

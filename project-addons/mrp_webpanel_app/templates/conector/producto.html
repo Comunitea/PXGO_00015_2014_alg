@@ -81,6 +81,7 @@
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Lote</th>
+                        <th>DS/RC</th>
 
                     </tr>
                     {% for p in product.move_lines2 %}
@@ -92,6 +93,14 @@
                             {% else %}
                                 <td>{{ p.prodlot_id.name|default_if_none:"" }}</td>
                             {% endif %}
+
+                            {% if p.location_dest_id.usage == 'inventory' %}
+                            <td><span calss="text-left">DS</span></td>
+                            {% endif %}
+                            {% if p.location_dest_id.usage == 'internal' %}
+                            <td><span calss="text-left">RC</span></td>
+                            {% endif %}
+
                             <td>
                                 <a href="/eliminar/{{ p.id }}" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=500,height=400'); return false;">X</a>
                             </td>

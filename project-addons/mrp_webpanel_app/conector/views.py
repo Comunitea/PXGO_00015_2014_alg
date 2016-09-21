@@ -98,13 +98,41 @@ def home(request):
 def selector(request):
     template = loader.get_template('conector/selector.html')
 
+    context = {}
+    oerp_ctx = {'lang': 'es_ES'}
+    from erp import POOL, DB, USER
+    cursor = DB.cursor()
+    issue_obj = POOL.get('alg.issue')
+
     users_list = Usuario.objects.filter()
 
-    context = RequestContext(request, {
+    try:
+        issue_ids = issue_obj.search(cursor, USER, [], order="id desc", limit=5)
+        issues = []
+        if issue_ids:
+            issues = issue_obj.browse(cursor, USER, issue_ids, context=oerp_ctx)
+
+        context = RequestContext(request, {
             'users_list': users_list,
             'codigo': request.session['codigo'],
-    })
-    return HttpResponse(template.render(context))
+            'issues_list': issues
+        })
+    except Exception as e:
+        return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/tareas/");</script>')
+        pass
+    finally:
+        return HttpResponse(template.render(context))
+        cursor.commit()
+        cursor.close()
+    # template = loader.get_template('conector/selector.html')
+    
+    # users_list = Usuario.objects.filter()
+
+    # context = RequestContext(request, {
+    #         'users_list': users_list,
+    #         'codigo': request.session['codigo'],
+    # })
+    # return HttpResponse(template.render(context))
 
 
 def productos(request):
@@ -446,7 +474,7 @@ def finalizar(request, id):
     finally:
         cursor.commit()
         cursor.close()
-        return HttpResponse('<script type="text/javascript">window.location.replace("/");</script>')
+        return HttpResponse('<script type="text/javascript">window.confirm("¿Está seguro de que desea finalizar?");window.location.replace("/");</script>')
 
 
 def verstock(request, id):
@@ -894,7 +922,7 @@ def tarea(request,id=None):
         hr_obj = POOL.get('hr.employee')
 
         try:
-            if request.POST.get('accion') == "Guardar":
+            if request.POST.get('accion') in ["Guardar"]:
                 tarea_id = tarea_obj.browse(cursor, USER, int(task_id), context=oerp_ctx)
                 vals['name'] = description
                 vals['product_id'] = pr_id
@@ -1019,6 +1047,64 @@ def tarea(request,id=None):
                     'tarea': False,
                     'trabajos':trabajos,
                     'codigo': request.session['codigo'],
+                })
+        except Exception as e:
+            return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/tarea/'+id+'/");</script>')
+            pass
+        finally:
+            return HttpResponse(template.render(context))
+            cursor.commit()
+            cursor.close()
+
+
+def incidencia(request, id=None):
+    template = loader.get_template('conector/incidencia.html')
+    context = {}
+    oerp_ctx = {'lang': 'es_ES'}
+    from erp import POOL, DB, USER
+    cursor = DB.cursor()
+    if request.method == 'POST':
+
+        description = request.POST.get("description")
+        issue_type = request.POST.get("type")
+        note = request.POST.get("note")
+        issue_id = request.POST.get("issueid", False)
+        vals = {}
+
+        issue_obj = POOL.get('alg.issue')
+        try:
+            if request.POST.get('accion') in ["Guardar"] and issue_id:
+                issue_rec = issue_obj.browse(cursor, USER, int(issue_id), context=oerp_ctx)
+                vals['name'] = description
+                vals['notes'] = note
+                vals['type'] = issue_type
+                issue_obj.write(cursor, USER, [issue_rec.id], vals, context=oerp_ctx)
+            elif not issue_id:
+                    vals['name'] = description
+                    vals['notes'] = note
+                    vals['type'] = issue_type
+                    issue_id = issue_obj.create(cursor, USER, vals)
+
+        except Exception as e:
+            return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/incidencia/'+id+'/");</script>')
+            pass
+        finally:
+            cursor.commit()
+            cursor.close()
+            return selector(request)
+            # return HttpResponse('<script type="text/javascript">window.location.replace("/");</script>')
+    else:
+
+        issue_obj = POOL.get('alg.issue')
+        try:
+            if id is not None:
+                issue_rec = issue_obj.browse(cursor, USER, [int(id)])
+                context = RequestContext(request, {
+                    'issue': issue_rec[0],
+                })
+            else:
+                context = RequestContext(request, {
+                    'issue': False,
                 })
         except Exception as e:
             return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/tarea/'+id+'/");</script>')

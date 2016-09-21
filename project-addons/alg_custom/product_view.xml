@@ -22,6 +22,10 @@
                     <button string="Lotes" name="%(action_see_lots)d" type="action"/>
                 </xpath>
 
+                <field name="type" position="after">
+                    <field name="clean_part" attrs="{'invisible': [('type','!=','service')]}"/>
+                </field>
+
             </field>
         </record>
 

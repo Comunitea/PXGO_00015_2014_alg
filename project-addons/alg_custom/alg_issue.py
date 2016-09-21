@@ -20,8 +20,23 @@
 #
 ##############################################################################
 
-from . import stock
-from . import report
-from . import product
-from . import hr_task
-from . import alg_issue
+from openerp.osv import fields, orm
+import time
+
+
+class AlgIssue(orm.Model):
+
+    _name = "alg.issue"
+
+    _columns = {
+        'name': fields.char('Description', size=256),
+        'date': fields.date('Date', readonly=True),
+        'type': fields.selection([('production', 'In Production'),
+                                  ('machine', 'In Machine')],
+                                 string="Issue type"),
+        'notes': fields.text('Notes'),
+    }
+
+    _defaults = {
+        'date': lambda *a: time.strftime("%Y-%m-%d")
+    }

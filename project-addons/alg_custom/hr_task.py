@@ -20,8 +20,14 @@
 #
 ##############################################################################
 
-from . import stock
-from . import report
-from . import product
-from . import hr_task
-from . import alg_issue
+from openerp.osv import fields, orm
+
+
+class HrTask(orm.Model):
+
+    _inherit = "hr.task"
+
+    _columns = {
+        'clean_part': fields.related('product_id', 'clean_part',
+                                     string="Clean Part", type="boolean")
+    }
