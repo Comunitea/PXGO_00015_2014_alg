@@ -29,6 +29,9 @@
             <div style="float:left;margin-left:12em;padding:2em;">
                 <a href="/etiquetas/{{ product.id }}" class="btn btn-success" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=500,height=400'); return false;">Imprimir etiquetas</a>
                 <a href="/nota/{{ product.id }}" class="btn btn-success" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=500,height=400'); return false;">Añadir nota</a>
+                <br/>
+                <br/>
+                <a href="/crearincidencia/{{ product.id }}" class="btn btn-warning" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=500,height=400'); return false;">Añadir Incidencia</a>
             </div>
 
         </div>
@@ -187,5 +190,31 @@
             <a href="/finalizar/{{ product.id }}" class="btn btn-primary btn-default pull-left" >Finalizar</a>
         {% endif %}
 
+    </div>
+    <div class="row">
+        <br />
+        <h2>Incidencias</h2>
+        {% if issues_list %}
+            <table class="table table-hover">
+                <tr>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Notas</th>
+                </tr>
+                {% for issue in issues_list %}
+                    <tr>
+                        <td><a href="/incidencia/{{issue.id}}/" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=500,height=400'); return false;" >{{ issue.name }}</a></td>
+                        <td>{{issue.date}}</td>
+                        {% if issue.type == 'production' %}
+                            <td>En producción</td>
+                        {% else %}
+                            <td>En máquina</td>
+                        {% endif %}
+                        <td>{{ issue.notes }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
     </div>
 {% endblock contenido %}

@@ -19,32 +19,5 @@
             </a>
         </div>
     </div>
-    <div class="row">
-        <h2>INCIDENCIAS</h2>
-        <a href="/crearincidencia/" class="btn btn-primary btn-default pull-left" >Crear</a>
-        {% if issues_list %}
-             <br /><br />
-            <table class="table table-hover">
-                <tr>
-                    <th>Descripción</th>
-                    <th>Fecha</th>
-                    <th>Tipo</th>
-                    <th>Notas</th>
-                </tr>
-                {% for issue in issues_list %}
-                    <tr>
-                        <td><a href="/incidencia/{{issue.id}}/">{{ issue.name }}</a></td>
-                        <td>{{issue.date}}</td>
-                        {% if issue.type == 'production' %}
-                            <td>En producción</td>
-                        {% else %}
-                            <td>En máquina</td>
-                        {% endif %}
-                        <td>{{ issue.notes }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        {% endif %}
-      </div>
     </center>
 {% endblock contenido %}

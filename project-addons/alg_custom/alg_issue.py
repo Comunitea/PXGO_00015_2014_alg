@@ -35,8 +35,10 @@ class AlgIssue(orm.Model):
                                   ('machine', 'In Machine')],
                                  string="Issue type"),
         'notes': fields.text('Notes'),
+        'production_id': fields.many2one('mrp.production', 'Production')
     }
 
     _defaults = {
-        'date': lambda *a: time.strftime("%Y-%m-%d")
+        'date': lambda *a: time.strftime("%Y-%m-%d"),
+        'type': 'production'
     }

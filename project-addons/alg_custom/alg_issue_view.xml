@@ -10,6 +10,7 @@
                 <tree string="Issues">
                     <field name="name"/>
                     <field name="date"/>
+                    <field name="production_id"/>
                     <field name="type"/>
                 </tree>
             </field>
@@ -24,6 +25,7 @@
                         <group>
                             <field name="name"/>
                             <field name="date"/>
+                            <field name="production_id"/>
                             <field name="type"/>
                             <field name="notes"/>
                         </group>
@@ -38,10 +40,12 @@
             <field name="arch" type="xml">
                 <search string="Activities">
                     <field name="name"/>
+                    <field name="production_id"/>
                     <filter string="Production Issues" icon="terp-go-month" domain="[('type', '=', 'production')]" context="{'group_by':'date'}"/>
                     <filter string="Machine Issues" icon="terp-go-month" domain="[('type', '=', 'machine')]" context="{'group_by':'date'}"/>
                     <group expand="0" string="Group By...">
                         <filter string="Type" icon="terp-accessories-archiver" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Production" icon="terp-accessories-archiver" domain="[]" context="{'group_by':'production_id'}"/>
                     </group>
                 </search>
             </field>

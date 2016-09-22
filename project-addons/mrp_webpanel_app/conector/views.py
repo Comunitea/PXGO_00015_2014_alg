@@ -97,42 +97,14 @@ def home(request):
 
 def selector(request):
     template = loader.get_template('conector/selector.html')
-
-    context = {}
-    oerp_ctx = {'lang': 'es_ES'}
-    from erp import POOL, DB, USER
-    cursor = DB.cursor()
-    issue_obj = POOL.get('alg.issue')
-
+    
     users_list = Usuario.objects.filter()
 
-    try:
-        issue_ids = issue_obj.search(cursor, USER, [], order="id desc", limit=5)
-        issues = []
-        if issue_ids:
-            issues = issue_obj.browse(cursor, USER, issue_ids, context=oerp_ctx)
-
-        context = RequestContext(request, {
+    context = RequestContext(request, {
             'users_list': users_list,
             'codigo': request.session['codigo'],
-            'issues_list': issues
-        })
-    except Exception as e:
-        return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/tareas/");</script>')
-        pass
-    finally:
-        return HttpResponse(template.render(context))
-        cursor.commit()
-        cursor.close()
-    # template = loader.get_template('conector/selector.html')
-    
-    # users_list = Usuario.objects.filter()
-
-    # context = RequestContext(request, {
-    #         'users_list': users_list,
-    #         'codigo': request.session['codigo'],
-    # })
-    # return HttpResponse(template.render(context))
+    })
+    return HttpResponse(template.render(context))
 
 
 def productos(request):
@@ -224,16 +196,24 @@ def producto(request,id):
     cursor = DB.cursor()
 
     production_obj = POOL.get('mrp.production')
+    issue_obj = POOL.get('alg.issue')
     try:
         production = production_obj.browse(cursor, USER, [int(id)], context=oerp_ctx)
         users_list = Usuario.objects.filter()
         user_access = Usuario.objects.get(code = str(request.session[
             'codigo']))
         user_access.control_time(project=id)
+
+        issue_ids = issue_obj.search(cursor, USER, [('production_id', '=', int(id))], order="id desc", limit=5)
+        issues = []
+        if issue_ids:
+            issues = issue_obj.browse(cursor, USER, issue_ids, context=oerp_ctx)
+
         context = RequestContext(request, {
             'users_list': users_list,
             'product': production[0],
             'codigo': request.session['codigo'],
+            'issues_list': issues
 
         })
     except Exception as e:
@@ -1079,22 +1059,16 @@ def incidencia(request, id=None):
                 vals['notes'] = note
                 vals['type'] = issue_type
                 issue_obj.write(cursor, USER, [issue_rec.id], vals, context=oerp_ctx)
-            elif not issue_id:
-                    vals['name'] = description
-                    vals['notes'] = note
-                    vals['type'] = issue_type
-                    issue_id = issue_obj.create(cursor, USER, vals)
-
         except Exception as e:
             return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/incidencia/'+id+'/");</script>')
             pass
         finally:
             cursor.commit()
             cursor.close()
-            return selector(request)
+            return HttpResponse('<script type="text/javascript">opener.location.reload();window.close()</script>')
+            # return selector(request)
             # return HttpResponse('<script type="text/javascript">window.location.replace("/");</script>')
     else:
-
         issue_obj = POOL.get('alg.issue')
         try:
             if id is not None:
@@ -1105,6 +1079,52 @@ def incidencia(request, id=None):
             else:
                 context = RequestContext(request, {
                     'issue': False,
+                })
+        except Exception as e:
+            return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/tarea/'+id+'/");</script>')
+            pass
+        finally:
+            return HttpResponse(template.render(context))
+            cursor.commit()
+            cursor.close()
+
+
+def crear_incidencia(request, id=None):
+    template = loader.get_template('conector/crear_incidencia.html')
+    context = {}
+    oerp_ctx = {'lang': 'es_ES'}
+    from erp import POOL, DB, USER
+    cursor = DB.cursor()
+    issue_obj = POOL.get('alg.issue')
+    if request.method == 'POST':
+
+        description = request.POST.get("description")
+        issue_type = request.POST.get("type")
+        note = request.POST.get("note")
+        production_id = request.POST.get("production_id", False)
+        vals = {}
+
+        issue_obj = POOL.get('alg.issue')
+        try:
+            if request.POST.get('accion') in ["Guardar"] and production_id:
+                vals['name'] = description
+                vals['production_id'] = production_id
+                vals['notes'] = note
+                vals['type'] = issue_type
+                issue_obj.create(cursor, USER, vals, context=oerp_ctx)
+
+        except Exception as e:
+            return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/incidencia/'+id+'/");</script>')
+            pass
+        finally:
+            cursor.commit()
+            cursor.close()
+            return HttpResponse('<script type="text/javascript">opener.location.reload();window.close()</script>')
+    else:
+        try:
+            if id is not None:
+                context = RequestContext(request, {
+                    'production_id': int(id),
                 })
         except Exception as e:
             return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/tarea/'+id+'/");</script>')

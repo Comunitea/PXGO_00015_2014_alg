@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block contenido %}
+
+    <div class="row">
+        <form method="post" action="." name="formula_issue">{% csrf_token %}
+            <div class="col-md-6">
+
+            <h3>Descripción</h3>
+                <input type="text" name="description"  id="multi" value="{% if issue.name %}{{ issue.name }}{% endif %}" />
+            <h3>Tipo</h3>
+                <select name="type">
+                    <option value="production" selected >Incidencia en Producción</option>
+                    <option value="machine"> Incidencia en máquina</option>
+                </select>
+            <h3>Notas</h3>
+            <textarea name="note"  rows="10" cols="80" id="multi1" style="padding:0px;"">
+            </textarea>
+        </div>
+    </div>
+    <br /><br />
+    <div class="row">
+        <input type="hidden" name="production_id" value="{{ production_id }}" />
+        <input type="submit" value="Guardar" name="accion" class="btn btn-primary"/>
+    </div>
+        </form>
+</div>
+{% endblock contenido %}

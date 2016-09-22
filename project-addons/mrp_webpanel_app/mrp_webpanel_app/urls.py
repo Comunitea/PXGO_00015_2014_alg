@@ -39,6 +39,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^crearincidencia/$', 'conector.views.incidencia', name='incidencia'),
+    url(r'^crearincidencia/(?P<id>\d+)/$', 'conector.views.crear_incidencia', name='crear_incidencia'),
+    # url(r'^crearincidencia/(?P<id>\d+)/$', 'conector.views.incidencia', name='incidencia'),
     url(r'^incidencia/(?P<id>\d+)/$', 'conector.views.incidencia', name='incidencia'),
 )
