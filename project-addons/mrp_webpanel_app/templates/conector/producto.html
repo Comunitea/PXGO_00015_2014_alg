@@ -31,7 +31,7 @@
                 <a href="/nota/{{ product.id }}" class="btn btn-success" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=500,height=400'); return false;">Añadir nota</a>
                 <br/>
                 <br/>
-                <a href="/crearincidencia/{{ product.id }}" class="btn btn-warning" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=500,height=400'); return false;">Añadir Incidencia</a>
+                <a href="/crearincidencia/{{ product.id }}" class="btn btn-warning" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=600,height=500'); return false;">Añadir Incidencia</a>
             </div>
 
         </div>
@@ -204,7 +204,7 @@
                 </tr>
                 {% for issue in issues_list %}
                     <tr>
-                        <td><a href="/incidencia/{{issue.id}}/" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=500,height=400'); return false;" >{{ issue.name }}</a></td>
+                        <td><a href="/incidencia/{{issue.id}}/" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=600,height=500'); return false;" >{{ issue.name }}</a></td>
                         <td>{{issue.date}}</td>
                         {% if issue.type == 'production' %}
                             <td>En producción</td>

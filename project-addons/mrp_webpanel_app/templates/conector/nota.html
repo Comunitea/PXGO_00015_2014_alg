@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Algamar APP">
         <meta name="author" content="Alejandro Núñez Liz">
-
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
         <title>Algamar APP</title>
 
@@ -27,22 +27,24 @@
         </script>
     </head>
     <body>
-        <form method="post" action=".">{% csrf_token %}
-        <div class="row">
-            <div class="col-md-6">
+        <div class="container marketing">
+            <form method="post" action=".">{% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
 
-                <table class="table table-hover f" style="width:500px;">
-                    <caption class="text-left"><h3>Nota de produccion</h3></caption>
-                    <tr>
-                        <th><textarea name="notes" cols="60" rows="10" >{{ notes }}</textarea></th>
-                    </tr>
-                </table>
+                    <table class="table table-hover f" style="width:500px;">
+                        <caption class="text-left"><h3>Nota de produccion</h3></caption>
+                        <tr>
+                            <th><textarea name="notes" cols="60" rows="10" >{{ notes }}</textarea></th>
+                        </tr>
+                    </table>
+                </div>
             </div>
+            <div class="row">
+                <input type="submit" class="btn btn-primary btn-default pull-left" style="margin-left:2em;" value="Guardar" />
+                <input type=button value="Cancelar" onclick="cerrarse()">
+            </div>
+            </form>
         </div>
-        <div class="row">
-            <input type="submit" class="btn btn-primary btn-default pull-left" style="margin-left:2em;" value="Guardar" />
-            <input type=button value="Cancelar" onclick="cerrarse()">
-        </div>
-        </form>
     </body>
 </html>

@@ -1,8 +1,12 @@
-{% extends "base.html" %}
+
 {% load i18n %}
 {% load staticfiles %}
 
+<head>
+ <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+ </head>
 {% block contenido %}
+    <div class="container marketing">
 
  <form method="post" action=".">{% csrf_token %}
     <div class="row">
@@ -51,4 +55,5 @@
         <input type=button value="Cerrar" onclick="cerrarse()" class="btn btn-primary btn-default pull-left">
     </div>
      </form>
+      </div>
 {% endblock contenido %}
