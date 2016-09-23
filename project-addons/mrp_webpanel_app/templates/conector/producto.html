@@ -32,6 +32,7 @@
                 <br/>
                 <br/>
                 <a href="/crearincidencia/{{ product.id }}" class="btn btn-warning" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=600,height=500'); return false;">Añadir Incidencia</a>
+                 <a href="/crearlimpieza/{{ product.id }}" class="btn btn-warning" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=600,height=500'); return false;">Parte Limpieza</a>
             </div>
 
         </div>
@@ -192,29 +193,48 @@
 
     </div>
     <div class="row">
-        <br />
-        <h2>Incidencias</h2>
-        {% if issues_list %}
-            <table class="table table-hover">
-                <tr>
-                    <th>Descripción</th>
-                    <th>Fecha</th>
-                    <th>Tipo</th>
-                    <th>Notas</th>
-                </tr>
-                {% for issue in issues_list %}
+        <div class="col-md-6">
+            <h2>Incidencias</h2>
+            {% if issues_list %}
+                <table class="table table-hover">
                     <tr>
-                        <td><a href="/incidencia/{{issue.id}}/" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=600,height=500'); return false;" >{{ issue.name }}</a></td>
-                        <td>{{issue.date}}</td>
-                        {% if issue.type == 'production' %}
-                            <td>En producción</td>
-                        {% else %}
-                            <td>En máquina</td>
-                        {% endif %}
-                        <td>{{ issue.notes }}</td>
+                        <th>Descripción</th>
+                        <th>Fecha</th>
+                        <th>Tipo</th>
                     </tr>
-                {% endfor %}
-            </table>
-        {% endif %}
+                    {% for issue in issues_list %}
+                        <tr>
+                            <td><a href="/incidencia/{{issue.id}}/" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=600,height=500'); return false;" >{{ issue.name }}</a></td>
+                            <td>{{issue.date}}</td>
+                            {% if issue.type == 'production' %}
+                                <td>En producción</td>
+                            {% else %}
+                                <td>En máquina</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <h2>Limpiezas</h2>
+            {% if works_list %}
+                <table class="table table-hover">
+                    <tr>
+                        <th>Trabajo</th>
+                        <th>Fecha</th>
+                        <th>Descripción</th>
+                    </tr>
+                    {% for tarea in works_list %}
+                        <tr>
+                            <td><a href="/limpieza/{{tarea.id}}/" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=600,height=500'); return false;">{{ tarea.product_id.name }}</a></td>
+                            <td>{{ tarea.date }}</td>
+                            <td>{{ tarea.name }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
     </div>
 {% endblock contenido %}

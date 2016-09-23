@@ -29,5 +29,6 @@ class HrTask(orm.Model):
 
     _columns = {
         'clean_part': fields.related('product_id', 'clean_part',
-                                     string="Clean Part", type="boolean")
+                                     string="Clean Part", type="boolean"),
+        'production_id': fields.many2one('mrp.production', 'Production')
     }

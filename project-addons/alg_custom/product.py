@@ -28,5 +28,6 @@ class ProductProduct(orm.Model):
     _inherit = "product.product"
 
     _columns = {
-        'clean_part': fields.boolean('Clean Part product')
+        'clean_part': fields.boolean('Clean Part product'),
+        'clean_part_prod': fields.boolean('Production Associated')
     }

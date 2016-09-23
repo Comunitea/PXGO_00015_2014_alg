@@ -24,9 +24,7 @@
                         {% endif %}    
                         </select>
                     <h3>Notas</h3>
-                    <textarea name="note"  rows="10" cols="80" id="multi1" style="padding:0px;">
-                        {% if issue.notes %}{{ issue.notes }}{% endif %}
-                    </textarea>
+                    <textarea name="note"  rows="10" cols="80" id="multi1" style="padding:0px;">{% if issue.notes %}{{ issue.notes }}{% endif %}</textarea>
                 </div>
                 <br /><br />
                 <div class="col-md-6">

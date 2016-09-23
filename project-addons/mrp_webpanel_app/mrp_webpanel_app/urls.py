@@ -42,4 +42,6 @@ urlpatterns = patterns('',
     url(r'^crearincidencia/(?P<id>\d+)/$', 'conector.views.crear_incidencia', name='crear_incidencia'),
     # url(r'^crearincidencia/(?P<id>\d+)/$', 'conector.views.incidencia', name='incidencia'),
     url(r'^incidencia/(?P<id>\d+)/$', 'conector.views.incidencia', name='incidencia'),
+    url(r'^crearlimpieza/(?P<id>\d+)/$', 'conector.views.crear_limpieza', name='crear_limpieza'),
+    url(r'^limpieza/(?P<id>\d+)/$', 'conector.views.limpieza', name='limpieza'),
 )

@@ -6,7 +6,7 @@
      <div class="row">
         <a href="/creartarea/" class="btn btn-primary btn-default pull-left" >Crear</a>
         <br /><br />
-        {% if tareas_list %}
+        {% if works_list %}
             <table class="table table-hover">
                 <tr>
                     <th>Trabajo</th>
@@ -14,7 +14,7 @@
                     <th>Descripcion</th>
                     <th>Estado</th>
                 </tr>
-                {% for tarea in tareas_list %}
+                {% for tarea in works_list %}
                     <tr>
                         <td><a href="/tarea/{{tarea.id}}/">{{ tarea.product_id.name }}</a></td>
                         <td>{{ tarea.date }}</td>

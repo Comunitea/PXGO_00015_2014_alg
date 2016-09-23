@@ -197,23 +197,30 @@ def producto(request,id):
 
     production_obj = POOL.get('mrp.production')
     issue_obj = POOL.get('alg.issue')
+    tarea_obj = POOL.get('hr.task')
+
     try:
         production = production_obj.browse(cursor, USER, [int(id)], context=oerp_ctx)
         users_list = Usuario.objects.filter()
-        user_access = Usuario.objects.get(code = str(request.session[
+        user_access = Usuario.objects.get(code=str(request.session[
             'codigo']))
         user_access.control_time(project=id)
 
-        issue_ids = issue_obj.search(cursor, USER, [('production_id', '=', int(id))], order="id desc", limit=5)
+        issue_ids = issue_obj.search(cursor, USER, [('production_id', '=', int(id))], order="id desc")
         issues = []
         if issue_ids:
             issues = issue_obj.browse(cursor, USER, issue_ids, context=oerp_ctx)
+
+        tarea_ids = tarea_obj.search(cursor, USER, [('production_id', '=', production[0].id)], order="name ASC")
+
+        works_list = tarea_obj.browse(cursor, USER, tarea_ids, context=oerp_ctx)
 
         context = RequestContext(request, {
             'users_list': users_list,
             'product': production[0],
             'codigo': request.session['codigo'],
-            'issues_list': issues
+            'issues_list': issues,
+            'works_list': works_list,
 
         })
     except Exception as e:
@@ -999,7 +1006,7 @@ def tarea(request,id=None):
         try:
             if id != None:
                 tarea = tarea_obj.browse(cursor, USER, [int(id)])
-            trabajos_ids = trabajo_obj.search(cursor, USER, [('type', '=', 'service'),('analytic_acc_id', '!=', False)], order="name ASC")
+            trabajos_ids = trabajo_obj.search(cursor, USER, [('type', '=', 'service'),('analytic_acc_id', '!=', False), ('clean_part_prod', '=', False)], order="name ASC")
             trabajos = trabajo_obj.browse(cursor, USER, trabajos_ids, context=oerp_ctx)
             users_list = Usuario.objects.filter()
             user_access = Usuario.objects.get(code = request.session['codigo'])
@@ -1030,6 +1037,110 @@ def tarea(request,id=None):
                 })
         except Exception as e:
             return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/tarea/'+id+'/");</script>')
+            pass
+        finally:
+            return HttpResponse(template.render(context))
+            cursor.commit()
+            cursor.close()
+
+def crear_limpieza(request, id=None):
+    template = loader.get_template('conector/crear_limpieza.html')
+    context = {}
+    oerp_ctx = {'lang': 'es_ES'}
+    from erp import POOL, DB, USER
+    cursor = DB.cursor()
+    production_id = request.POST.get("production_id", int(id))
+    if request.method == 'POST':
+
+        pr_id = int(request.POST.get("pr"))
+        description = request.POST.get("description")
+        note = request.POST.get("note")
+        task_id = request.POST.get("taskid", False)
+        task_id = request.POST.get("taskid", False)
+        
+        vals = {}
+
+        tarea_obj = POOL.get('hr.task')
+        try:
+            # Si no existe la tarea, se crea.
+            vals['name'] = description
+            vals['production_id'] = production_id
+            vals['product_id'] = pr_id
+            vals['note'] = note
+            task_id = tarea_obj.create(cursor, USER, vals)
+            tarea_obj.set_open(cursor, USER, [task_id])
+            tarea_obj.set_close(cursor, USER, [task_id])
+        except Exception as e:
+            return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/creartarea/'+id+'/");</script>')
+            pass
+        finally:
+            cursor.commit()
+            cursor.close()
+            return HttpResponse('<script type="text/javascript">opener.location.reload();window.close()</script>')
+    else:
+        tarea_obj = POOL.get('hr.task')
+        trabajo_obj = POOL.get('product.product')
+        try:
+            trabajos_ids = trabajo_obj.search(cursor, USER, [('type', '=', 'service'),('analytic_acc_id', '!=', False), ('clean_part_prod', '=', True)], order="name ASC")
+            trabajos = trabajo_obj.browse(cursor, USER, trabajos_ids, context=oerp_ctx)
+
+            context = RequestContext(request, {
+                'production_id': int(id),
+                'trabajos': trabajos,
+            })
+        except Exception as e:
+            return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/limpieza/'+id+'/");</script>')
+            pass
+        finally:
+            return HttpResponse(template.render(context))
+            cursor.commit()
+            cursor.close()
+
+
+def limpieza(request,id=None):
+    template = loader.get_template('conector/limpieza.html')
+    context = {}
+    oerp_ctx = {'lang': 'es_ES'}
+    from erp import POOL, DB, USER
+    cursor = DB.cursor()
+    if request.method == 'POST':
+
+        pr_id = int(request.POST.get("pr"))
+        description = request.POST.get("description")
+        note = request.POST.get("note")
+        task_id = int(id)
+        vals = {}
+
+        codigo = int(request.session.get('codigo', False))
+        tarea_obj = POOL.get('hr.task')
+        try:
+            if request.POST.get('accion') in ["Guardar"]:
+                tarea_id = tarea_obj.browse(cursor, USER, int(task_id), context=oerp_ctx)
+                vals['name'] = description
+                vals['product_id'] = pr_id
+                vals['note'] = note
+                tarea_obj.write(cursor, USER, [tarea_id.id], vals, context=oerp_ctx)
+        except Exception as e:
+            return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/limpieza/'+id+'/");</script>')
+            pass
+        finally:
+            cursor.commit()
+            cursor.close()
+            return HttpResponse('<script type="text/javascript">opener.location.reload();window.close()</script>')
+    else:
+        tarea_obj = POOL.get('hr.task')
+        trabajo_obj = POOL.get('product.product')
+        try:
+            tarea = tarea_obj.browse(cursor, USER, [int(id)])
+            trabajos_ids = trabajo_obj.search(cursor, USER, [('type', '=', 'service'),('analytic_acc_id', '!=', False), ('clean_part_prod', '=', True)], order="name ASC")
+            trabajos = trabajo_obj.browse(cursor, USER, trabajos_ids, context=oerp_ctx)
+
+            context = RequestContext(request, {
+                'tarea': tarea[0],
+                'trabajos': trabajos,
+            })
+        except Exception as e:
+            return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/limpieza/'+id+'/");</script>')
             pass
         finally:
             return HttpResponse(template.render(context))
@@ -1106,7 +1217,7 @@ def crear_incidencia(request, id=None):
 
         issue_obj = POOL.get('alg.issue')
         try:
-            if request.POST.get('accion') in ["Guardar"] and production_id:
+            if request.POST.get('accion') in ["Crear"] and production_id:
                 vals['name'] = description
                 vals['production_id'] = production_id
                 vals['notes'] = note

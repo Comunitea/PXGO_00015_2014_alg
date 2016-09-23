@@ -1,0 +1,41 @@
+{% load i18n %}
+{% load staticfiles %}
+<head>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+{% block contenido %}
+    <div class="container marketing">
+        <form method="post" action="." name="formula">{% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+
+                    <h2>Trabajo</h2>
+                    {% if trabajos %}
+                        <select name="pr">
+                        {% for p in trabajos %}
+                            {% if p.id == tarea.product_id.id %}
+                                <option value="{{ p.id }}" selected >[{{ p.default_code }}]{{ p.name }}</option>
+                            {% else %}
+                                <option value="{{ p.id }}" >[{{ p.default_code }}]{{ p.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
+                    {% endif %}
+                    <h3>Descripción</h3>
+                    <p>
+                        <input type="text" name="description"  id="multi" value="{% if tarea.name %}{{ tarea.name }}{% endif %}" />
+                    </p>
+                    <h3>Notas</h3>
+                    <textarea name="note"  id="multi1" rows="10" cols="80" style="padding:0px;">{% if tarea.note %}{{ tarea.note }}{% endif %}</textarea>
+                </div>
+            </div>
+            <br /><br />
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="hidden" name="production_id" value="{{ production_id }}" />
+                    <input type="submit" value="Guardar" name="accion" class="btn btn-primary"/>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock contenido %}

@@ -24,6 +24,7 @@
 
                 <field name="type" position="after">
                     <field name="clean_part" attrs="{'invisible': [('type','!=','service')]}"/>
+                    <field name="clean_part_prod" attrs="{'invisible': [('type','!=','service'), ('clean_part','==',False)]}"/>
                 </field>
 
             </field>
