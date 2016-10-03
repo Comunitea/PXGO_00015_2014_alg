@@ -60,7 +60,7 @@
             <field name="search_view_id" ref="alg_issue_search"/>
         </record>
 
-        <menuitem id="menu_alg_issues" string="Issues" parent="hr_attendance.menu_hr_time_tracking" action="act_alg_issue"/>
+        <menuitem id="menu_alg_issues" string="Issues" parent="mrp.menu_mrp_manufacturing" action="act_alg_issue"/>
 
     </data>
 </openerp>

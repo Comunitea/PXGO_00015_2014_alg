@@ -20,9 +20,14 @@
 #
 ##############################################################################
 
-from . import stock
-from . import report
-from . import product
-from . import hr_task
-from . import alg_issue
-from . import mrp
+from openerp.osv import fields, orm
+
+
+class MrpProduction(orm.Model):
+
+    _inherit = "mrp.production"
+
+    _columns = {
+        'issue_ids': fields.one2many('alg.issue', 'production_id', 'Issues'),
+        'part_ids': fields.one2many('hr.task', 'production_id', 'Clean Parts'),
+    }

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-23 10:10+0000\n"
-"PO-Revision-Date: 2016-09-23 10:10+0000\n"
+"POT-Creation-Date: 2016-10-03 14:25+0000\n"
+"PO-Revision-Date: 2016-10-03 14:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,9 +26,20 @@ msgid "Production Issues"
 msgstr "Incidencia en producción"
 
 #. module: alg_custom
+#: model:ir.model,name:alg_custom.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Órden de producción"
+
+#. module: alg_custom
 #: selection:alg.issue,type:0
 msgid "In Production"
 msgstr "En producción"
+
+#. module: alg_custom
+#: view:mrp.production:0
+#: field:mrp.production,part_ids:0
+msgid "Clean Parts"
+msgstr "Partes de limpieza"
 
 #. module: alg_custom
 #: view:alg.issue:0
@@ -117,6 +128,11 @@ msgid "Notes"
 msgstr "Notas"
 
 #. module: alg_custom
+#: view:mrp.production:0
+msgid "Extra Information"
+msgstr "Información extra"
+
+#. module: alg_custom
 #: model:ir.model,name:alg_custom.model_hr_task
 msgid "hr.task"
 msgstr "hr.task"
@@ -162,6 +178,8 @@ msgstr "Lotes"
 #: view:alg.issue:0
 #: model:ir.actions.act_window,name:alg_custom.act_alg_issue
 #: model:ir.ui.menu,name:alg_custom.menu_alg_issues
+#: view:mrp.production:0
+#: field:mrp.production,issue_ids:0
 msgid "Issues"
 msgstr "Incidencias"
 
