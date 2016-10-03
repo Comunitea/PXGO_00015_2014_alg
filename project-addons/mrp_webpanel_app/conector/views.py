@@ -870,7 +870,6 @@ def tareas(request):
         tarea_ids = tarea_obj.search(cursor, USER, [('state', 'not in', ['close','cancel'])], order="name ASC")
 
         tareas = tarea_obj.browse(cursor, USER, tarea_ids, context=oerp_ctx)
-
         users_list = Usuario.objects.filter()
         context = RequestContext(request, {
             'users_list': users_list,

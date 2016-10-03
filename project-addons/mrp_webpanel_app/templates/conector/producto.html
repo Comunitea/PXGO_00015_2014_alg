@@ -205,7 +205,7 @@
                     {% for issue in issues_list %}
                         <tr>
                             <td><a href="/incidencia/{{issue.id}}/" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=600,height=500'); return false;" >{{ issue.name }}</a></td>
-                            <td>{{issue.date}}</td>
+                            <td>{{issue.date|parse_date:"%Y-%m-%d"|date:"d/m/Y"}}</td>
                             {% if issue.type == 'production' %}
                                 <td>En producción</td>
                             {% else %}
@@ -229,7 +229,7 @@
                     {% for tarea in works_list %}
                         <tr>
                             <td><a href="/limpieza/{{tarea.id}}/" target="_blank" onClick="window.open(this.href, this.target, 'scrollbars=1,width=600,height=500'); return false;">{{ tarea.product_id.name }}</a></td>
-                            <td>{{ tarea.date }}</td>
+                            <td>{{ tarea.date|parse_date:"%Y-%m-%d"|date:"d/m/Y" }}</td>
                             <td>{{ tarea.name }}</td>
                         </tr>
                     {% endfor %}
@@ -238,3 +238,4 @@
         </div>
     </div>
 {% endblock contenido %}
+|parse_date:"%Y-%m-%d %H:%M:%S"|date:"d/m/Y" }}
