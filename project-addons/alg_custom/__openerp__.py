@@ -37,7 +37,6 @@
                  'sale_production_lot',
                  'stock_picking_valued',
                  'hr_activity_timesheet',
-                 'security/ir.model.access.csv'
                  ],
     'data': ['partner_view.xml',
              'product_view.xml',
@@ -46,6 +45,7 @@
              'hr_task_view.xml',
              'alg_issue_view.xml',
              'mrp_view.xml',
+             'security/ir.model.access.csv'
              ],
     'demo': [],
     'test': [],
