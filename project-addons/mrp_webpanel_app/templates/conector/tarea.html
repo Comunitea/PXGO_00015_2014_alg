@@ -3,6 +3,7 @@
 {% load staticfiles %}
 {% block js %}
 
+
     <!-- jQuery & jQuery UI + theme (required) -->
 
     <!-- modificado por RC, quitar enlaces exteriores -->                                                                                                         
@@ -20,12 +21,6 @@
             $('#multi1').keyboard({ layout: 'international' });
         });
     </script-->
-    <script>
-        function popupUploadForm(){
-            var newWindow = window.open('/static/kg_mov.html', 'name', 'height=500,width=600');
-            //document.write(document.getElementById('kg_mov').value);
-            //~ document.getElementById('kg_mov').value = newWindow;
-   </script>
 {% endblock js %}
 
 
@@ -76,10 +71,10 @@
         {% endif %}
         {% if tarea.state == "open" %}
             {% if tarea.product_id.clean_part %}
-                <input type="submit" value="Finalizar parte de limpieza" name="accion" class="btn btn-success"/>
+                <input type="submit" value="Finalizar parte de limpieza" name="accion2" class="btn btn-success"/>
             {% endif %}
             {% if not tarea.product_id.clean_part %}
-                <input type="button" value="Finalizar" name="accion" class="btn btn-success" onclick="popupUploadForm()"/>
+                <input type="button" value="Finalizar" name="accion" class="btn btn-success" onclick="window.open('/static/kg_mov.html', 'name', 'height=500,width=600')"/>
             {% endif %}
             <input type="submit" value="Guardar" name="accion" class="btn btn-primary"/>
         {% endif %}

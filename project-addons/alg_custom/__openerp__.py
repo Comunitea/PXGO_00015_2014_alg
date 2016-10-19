@@ -45,6 +45,7 @@
              'hr_task_view.xml',
              'alg_issue_view.xml',
              'mrp_view.xml',
+             'security/ir.model.access.csv'
              ],
     'demo': [],
     'test': [],
