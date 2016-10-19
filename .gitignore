@@ -1,6 +1,6 @@
 project-addons/mrp_webpanel_app/prueba
 project-addons/mrp_webpanel_app/mrp_webpanel_app/settings.py
-project-addons/mrp_webpanel_app/mrp_webpanel_app/wsgy.py
+project-addons/mrp_webpanel_app/mrp_webpanel_app/wsgi.py
 openerp-repos/
 var/
 parts/
