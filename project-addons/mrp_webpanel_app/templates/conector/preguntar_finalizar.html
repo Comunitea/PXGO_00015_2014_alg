@@ -1,0 +1,21 @@
+
+{% load i18n %}
+{% load staticfiles %}
+<head>
+ <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+ </head>
+{% block contenido %}
+    <div class="container marketing">
+        <form method="post" action="." name="formula_issue">{% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <p> ¿Está seguro de que desea finalizar la producción? </p>
+                </div>
+            <div class="col-md-6">
+                 <a href="/finalizar/{{ product_id }}" class="btn btn-primary btn-default pull-left">Finalizar</a>
+                 <input type=button class="btn btn-secondary btn-default pull-left" value="Cancelar" onclick="window.close()">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock contenido %}

@@ -409,6 +409,18 @@ def abrir(request, id):
         cursor.close()
         return HttpResponse('<script type="text/javascript">window.location.replace("/producto/'+id+'/");</script>')
 
+def preguntar_finalizar(request, id=None):
+    template = loader.get_template('conector/preguntar_finalizar.html')
+    context = {}
+    oerp_ctx = {'lang': 'es_ES'}
+
+    if id is not None:
+        context = RequestContext(request, {
+            'product_id': int(id),
+        })
+        return HttpResponse(template.render(context))
+
+
 def finalizar(request, id):
 
     context={}
@@ -461,8 +473,9 @@ def finalizar(request, id):
     finally:
         cursor.commit()
         cursor.close()
-        return HttpResponse('<script type="text/javascript">window.confirm("¿Está seguro de que desea finalizar?");window.location.replace("/");</script>')
-
+        # return HttpResponse('<script type="text/javascript">window.confirm("¿Está seguro de que desea finalizar?");window.location.replace("/");</script>')
+        return HttpResponse('<script type="text/javascript">window.close();opener.location.replace("/");</script>')
+        # return HttpResponse('<script type="text/javascript">window.close();</script>')
 
 def verstock(request, id):
     # Busco usuario,si exite,para el tiempo y crea nuevo tiempo de trabajo
