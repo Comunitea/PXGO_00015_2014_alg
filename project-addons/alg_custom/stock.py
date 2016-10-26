@@ -107,6 +107,24 @@ class stock_move(orm.Model):
 
             return True
 
+    def copy(self, cr, uid, id, default=None, context=None):
+        """
+        Propagar el lote, ya que en las producciones cuando ya tienes un poco
+        de un movimiento consumido, digamos 30 unidades de 100, si recalculamos
+        desde la aplicación de django la cantidad, el movimiento que quedaba que
+        era de 70, pàsa a ser de 130 por ejemplo, quedan 70 por productir, 140-70
+        es distinto de cero por lo que nos hará un copy el action_consume del módulo
+        stock, no cogiendo el lote, lo cual es un error.
+        """
+        if not default:
+            default = {}
+        move = self.browse(cr, uid, id, context=context)
+        if move.prodlot_id:
+            default.update({
+                'prodlot_id': move.prodlot_id.id
+            })
+        return super(stock_move, self).copy(cr, uid, id, default, context)
+
 
 class StockProductionLot(orm.Model):
 
