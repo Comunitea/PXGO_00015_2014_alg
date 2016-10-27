@@ -119,7 +119,7 @@ class stock_move(orm.Model):
         if not default:
             default = {}
         move = self.browse(cr, uid, id, context=context)
-        if move.prodlot_id:
+        if not default.get('prodlot_id', False) and move.prodlot_id:
             default.update({
                 'prodlot_id': move.prodlot_id.id
             })
