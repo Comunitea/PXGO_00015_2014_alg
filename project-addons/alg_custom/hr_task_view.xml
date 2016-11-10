@@ -43,5 +43,16 @@
             </field>
         </record>
 
+        <record id="act_hr_clean_parts" model="ir.actions.act_window">
+            <field name="name">Clean Parts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.task</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('clean_part', '=', True)]</field>
+        </record>
+
+        <menuitem id="menu_celan_parts" string="Clean Part" parent="mrp.menu_mrp_manufacturing" action="act_hr_clean_parts"/>
+
     </data>
 </openerp>

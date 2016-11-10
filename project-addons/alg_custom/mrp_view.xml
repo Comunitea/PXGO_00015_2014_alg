@@ -31,6 +31,11 @@
                         </group>
                     </page>
                 </page>
+
+                <field name="bom_id" position="before">
+                    <field name="final_lot_id"/>
+                    <field name="consume_date"/>
+                </field>
             </field>
         </record>
     </data>

@@ -30,4 +30,10 @@ class MrpProduction(orm.Model):
     _columns = {
         'issue_ids': fields.one2many('alg.issue', 'production_id', 'Issues'),
         'part_ids': fields.one2many('hr.task', 'production_id', 'Clean Parts'),
+        'final_lot_id': fields.related('move_created_ids2', 'prodlot_id',
+                                       type='many2one',
+                                       relation="stock.production.lot",
+                                       string="Final lot"),
+        'consume_date': fields.related('final_lot_id', 'use_date',
+                                       type='date', string='Consume date')
     }

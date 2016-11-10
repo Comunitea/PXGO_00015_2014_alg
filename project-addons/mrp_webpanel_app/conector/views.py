@@ -828,8 +828,23 @@ def dividir(request, id):
                         move_obj.write(cursor, USER, move.id, {'product_qty': qty})
 
                     else:
-                        new_lot = lot_obj.copy(cursor, USER, move.prodlot_id.id, {'language': language})
-                        new_move = move_obj.copy(cursor, USER, move.id, {'product_qty': qty, 'prodlot_id': new_lot})
+                        new_lot_id = False
+                        domain = [
+                            ('product_id', '=', move.product_id.id),
+                            ('name', '=', move.prodlot_id.name),
+                            ('language', '=', language),
+                        ]
+                        exist_lot_ids = lot_obj.search(cursor, USER, domain)
+                        if exist_lot_ids:
+                            new_lot_id = exist_lot_ids[0]
+                        else:
+                            new_lot_id = lot_obj.copy(move.prodlot_id.id,
+                                                      {'product_id': to_produce.product_id.id,
+                                                       'name': move.prodlot_id.name,
+                                                       'language': move.prodlot_id.language.id})
+                        new_move = move_obj.copy(cursor, USER, move.id,
+                                                 {'product_qty': qty,
+                                                  'prodlot_id': new_lot_id})
                     first_lang = False
 
 
