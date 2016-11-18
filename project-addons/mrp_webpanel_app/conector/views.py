@@ -809,9 +809,7 @@ def dividir(request, id):
         cursor = DB.cursor()
         move_obj = POOL.get('stock.move')
         lot_obj = POOL.get('stock.production.lot')
-
         try:
-
             updated=False
             move = move_obj.browse(cursor, USER, pr_id)
             new_lots = {}
@@ -821,7 +819,6 @@ def dividir(request, id):
                 language = int(language)
 
                 #copy_vals = {'language': language, 'product_qty': qty}
-
                 if move.prodlot_id:
                     if first_lang:
                         lot_obj.write(cursor, USER, move.prodlot_id.id, {'language': language})
@@ -838,13 +835,13 @@ def dividir(request, id):
                         if exist_lot_ids:
                             new_lot_id = exist_lot_ids[0]
                         else:
-                            new_lot_id = lot_obj.copy(move.prodlot_id.id,
-                                                      {'product_id': to_produce.product_id.id,
+                            new_lot_id = lot_obj.copy(cursor, USER, move.prodlot_id.id,
+                                                      {'product_id': move.product_id.id,
                                                        'name': move.prodlot_id.name,
                                                        'language': move.prodlot_id.language.id})
-                        new_move = move_obj.copy(cursor, USER, move.id,
-                                                 {'product_qty': qty,
-                                                  'prodlot_id': new_lot_id})
+                        move_obj.copy(cursor, USER, move.id,
+                                     {'product_qty': qty,
+                                      'prodlot_id': new_lot_id})
                     first_lang = False
 
 
