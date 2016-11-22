@@ -838,7 +838,7 @@ def dividir(request, id):
                             new_lot_id = lot_obj.copy(cursor, USER, move.prodlot_id.id,
                                                       {'product_id': move.product_id.id,
                                                        'name': move.prodlot_id.name,
-                                                       'language': move.prodlot_id.language.id})
+                                                       'language': language})
                         move_obj.copy(cursor, USER, move.id,
                                      {'product_qty': qty,
                                       'prodlot_id': new_lot_id})
