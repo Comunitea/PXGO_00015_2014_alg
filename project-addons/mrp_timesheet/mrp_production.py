@@ -21,10 +21,20 @@
 ##############################################################################
 
 from openerp.osv import orm, fields
-
+import openerp.addons.decimal_precision as dp
 
 class mrp_production(orm.Model):
     _inherit = 'mrp.production'
+
+    def _get_total_hours(self, cr, uid, ids, name, unknow_none, context=None):
+        result = {}
+        for prod in self.browse(cr, uid, ids, context=context):
+            result[prod.id] = {
+                'total_hours': 0.0,
+            }
+            for wl in prod.work_line_ids:
+                result[prod.id]['total_hours'] += wl.unit_amount
+        return result
 
     _columns = {
         'work_line_ids': fields.one2many('hr.analytic.timesheet',
@@ -36,6 +46,12 @@ class mrp_production(orm.Model):
                                       states={'draft': [('readonly', False)]},
                                       domain=[('analytic_acc_id', '!=',
                                                False)]),
+        'total_hours': fields.function(_get_total_hours,
+                                       string='Total Hours',
+                                       type='float',
+                                       multi=True,
+                                       digits_compute=
+                                       dp.get_precision('Account'))
     }
 
     def _check_product(self, cr, uid, ids, context=None):

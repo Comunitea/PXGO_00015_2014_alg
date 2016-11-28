@@ -33,7 +33,7 @@
                             {% endfor %}
 
                         </td>
-                        <td>{{ product.date_planned|parse_date:"%Y-%m-%d %H:%M:%S"|date:"d/m/Y"  }}</td>
+                        <td>{{ product.date_planned|parse_date:"%Y-%m-%d %H:%M:%S.%f"|date:"d/m/Y"  }}</td>
                         <td>{{ product.product_qty }}</td>
                         <td>{{ product.lot_id.name }}</td>
                         <td>{{ product.state|traduccion }}</td>
