@@ -25,7 +25,7 @@
             <field name="arch" type="xml">
 
                 <field name="hour_total" position="replace">
-                    <field name="total_hours"/>
+                    <field name="total_hours" widget="float_time"/>
                 </field>
 
             </field>
