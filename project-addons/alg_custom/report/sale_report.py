@@ -12,7 +12,8 @@ class sale_report(osv.osv):
 
     _columns = {
         'lot_id': fields.many2one('stock.production.lot', 'Lot'),
-        'country_id': fields.many2one('res.country', 'Country')
+        'country_id': fields.many2one('res.country', 'Country'),
+        'lang_id': fields.many2one('res.lang', 'Language', select=True),
     }
 
     def init(self, cr):
@@ -24,6 +25,7 @@ class sale_report(osv.osv):
                     l.product_id as product_id,
                     l.prodlot_id as lot_id,
                     rp.country_id as country_id,
+                    spl.language as lang_id,
                     t.uom_id as product_uom,
                     sum(l.product_uom_qty / u.factor * u2.factor) as product_uom_qty,
                     sum(l.product_uom_qty * l.price_unit * (100.0-l.discount) / 100.0) as price_total,
@@ -46,16 +48,19 @@ class sale_report(osv.osv):
                     s.project_id as analytic_account_id
                 from
                     sale_order_line l
-                      join sale_order s on (l.order_id=s.id)
-                         left join product_product p on (l.product_id=p.id)
-                            left join product_template t on (p.product_tmpl_id=t.id)
-                    left join product_uom u on (u.id=l.product_uom)
-                    left join product_uom u2 on (u2.id=t.uom_id)
-                    left join res_partner rp on (rp.id =s.partner_id)
+                        join sale_order s on (l.order_id=s.id)
+                        left join product_product p on (l.product_id=p.id)
+                        left join product_template t on (p.product_tmpl_id=t.id)
+                        left join product_uom u on (u.id=l.product_uom)
+                        left join product_uom u2 on (u2.id=t.uom_id)
+                        left join res_partner rp on (rp.id =s.partner_id)
+                        left join stock_production_lot spl on (spl.id = l.prodlot_id)
+                        left join res_lang rl on (rl.id = spl.language)
                 group by
                     l.product_id,
                     l.prodlot_id,
                     rp.country_id,
+                    spl.language,
                     l.order_id,
                     t.uom_id,
                     t.categ_id,

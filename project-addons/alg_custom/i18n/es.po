@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-10 17:44+0000\n"
-"PO-Revision-Date: 2016-11-10 17:44+0000\n"
+"POT-Creation-Date: 2016-12-15 12:35+0000\n"
+"PO-Revision-Date: 2016-12-15 12:35+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -103,6 +103,11 @@ msgid "Machine Issues"
 msgstr "Incidencia en máquina"
 
 #. module: alg_custom
+#: field:mrp.production,total_hours:0
+msgid "Total Hours"
+msgstr "Total Hours"
+
+#. module: alg_custom
 #: field:alg.issue,name:0
 msgid "Description"
 msgstr "Descripción"
@@ -127,6 +132,12 @@ msgstr "Fecha"
 #: view:hr.task:0
 msgid "Clean Part production"
 msgstr "Parte de limpieza producciones"
+
+#. module: alg_custom
+#: view:sale.report:0
+#: field:sale.report,lang_id:0
+msgid "Language"
+msgstr "Idioma"
 
 #. module: alg_custom
 #: view:sale.report:0
