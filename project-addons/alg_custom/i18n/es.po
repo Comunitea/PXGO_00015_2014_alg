@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-15 12:35+0000\n"
-"PO-Revision-Date: 2016-12-15 12:35+0000\n"
+"POT-Creation-Date: 2017-01-12 11:57+0000\n"
+"PO-Revision-Date: 2017-01-12 11:57+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -71,6 +71,11 @@ msgstr "Lote"
 #: field:stock.production.lot,warehouse_id:0
 msgid "Warehouse"
 msgstr "Almacén"
+
+#. module: alg_custom
+#: model:ir.model,name:alg_custom.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr "Estadísticas de facturas"
 
 #. module: alg_custom
 #: view:alg.issue:0
@@ -140,6 +145,8 @@ msgid "Language"
 msgstr "Idioma"
 
 #. module: alg_custom
+#: view:account.invoice.report:0
+#: field:account.invoice.report,country_id:0
 #: view:sale.report:0
 #: field:sale.report,country_id:0
 msgid "Country"
@@ -164,6 +171,12 @@ msgstr "hr.task"
 #: field:stock.production.lot,active:0
 msgid "Active"
 msgstr "Activo"
+
+#. module: alg_custom
+#: view:account.invoice.report:0
+#: field:account.invoice.report,ref:0
+msgid "Customer reference"
+msgstr "Referencia cliente"
 
 #. module: alg_custom
 #: view:hr.task:0

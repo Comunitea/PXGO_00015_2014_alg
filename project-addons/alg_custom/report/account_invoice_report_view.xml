@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+
+        <record id="view_account_invoice_report_search" model="ir.ui.view">
+            <field name="name">account.invoice.report.search</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="country_id"/>
+                    <field name="ref"/>
+                </field>
+                <filter name="partner" position="after">
+                    <filter string="Country" icon="terp-partner"  name="Country" context="{'group_by':'country_id'}"/>
+                    <filter string="Customer reference" icon="terp-partner"  name="Ref" context="{'group_by':'ref'}"/>
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</openerp>
