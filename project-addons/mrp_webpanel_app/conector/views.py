@@ -810,43 +810,39 @@ def dividir(request, id):
         move_obj = POOL.get('stock.move')
         lot_obj = POOL.get('stock.production.lot')
         try:
-            updated=False
+            updated = False
             move = move_obj.browse(cursor, USER, pr_id)
             new_lots = {}
             first_lang = True
             for language, qty in zip(request.POST.getlist("language"), request.POST.getlist("unidades")):
                 qty = float(qty)
                 language = int(language)
-
-                #copy_vals = {'language': language, 'product_qty': qty}
                 if move.prodlot_id:
-                    if first_lang:
-                        lot_obj.write(cursor, USER, move.prodlot_id.id, {'language': language})
-                        move_obj.write(cursor, USER, move.id, {'product_qty': qty})
-
+                    new_lot_id = False
+                    domain = [
+                        ('product_id', '=', move.product_id.id),
+                        ('name', '=', move.prodlot_id.name),
+                        ('language', '=', language),
+                    ]
+                    exist_lot_ids = lot_obj.search(cursor, USER, domain)
+                    if exist_lot_ids:
+                        new_lot_id = exist_lot_ids[0]
                     else:
-                        new_lot_id = False
-                        domain = [
-                            ('product_id', '=', move.product_id.id),
-                            ('name', '=', move.prodlot_id.name),
-                            ('language', '=', language),
-                        ]
-                        exist_lot_ids = lot_obj.search(cursor, USER, domain)
-                        if exist_lot_ids:
-                            new_lot_id = exist_lot_ids[0]
-                        else:
-                            new_lot_id = lot_obj.copy(cursor, USER, move.prodlot_id.id,
-                                                      {'product_id': move.product_id.id,
-                                                       'name': move.prodlot_id.name,
-                                                       'language': language})
+                        new_lot_id = lot_obj.copy(cursor, USER, move.prodlot_id.id,
+                                                  {'product_id': move.product_id.id,
+                                                   'name': move.prodlot_id.name,
+                                                   'language': language})
+
+                    # Escribimos sobre el move original el nuevo lote o existente, si no duplicamos el movimiento
+                    if first_lang:
+                        move_obj.write(cursor, USER, move.id,
+                                       {'product_qty': qty,
+                                        'prodlot_id': new_lot_id})
+                    else:
                         move_obj.copy(cursor, USER, move.id,
-                                     {'product_qty': qty,
-                                      'prodlot_id': new_lot_id})
+                                      {'product_qty': qty,
+                                       'prodlot_id': new_lot_id})
                     first_lang = False
-
-
-            #if not updated and request.POST.get("product", False):
-            #move_obj.unlink(cursor, USER, [move.id])
 
         except Exception as e:
             return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/producto/'+id+'/");window.close();</script>')
