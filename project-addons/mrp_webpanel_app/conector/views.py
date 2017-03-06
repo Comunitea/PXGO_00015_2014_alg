@@ -642,7 +642,9 @@ def cambiar_fecha(request, id):
             if not validateDateEs(date_str):
                 print_format_error = True
             else:
-                lot_obj.write(cursor, USER, [pr_id], {'use_date': date_str}, oerp_ctx)
+                lot_obj.write(cursor, USER, [pr_id], {'use_date': date_str,
+                                                      'life_date': date_str},
+                              oerp_ctx)
         except Exception as e:
             return HttpResponse('<script type="text/javascript">window.alert("ERROR: '+unicode(e)+'");window.location.replace("/producto/'+id+'/");window.close();</script>')
             pass
