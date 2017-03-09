@@ -382,7 +382,7 @@
         </tr>
         <tr>
           <td>
-               <para style="terp_default_9">Cuenta bancaria: [[ o.partner_bank_id and format(o.partner_bank_id.acc_number) or removeParentNode('para') ]]</para>
+               <para style="terp_default_9">Cuenta bancaria: [[ o.partner_bank_id and format((o.partner_bank_id.acc_number.split(' ')[0] + ' XXXX' + ' XXXX' +' XXXX' +' XXXX ' + o.partner_bank_id.acc_number.split(' ')[-1])) or removeParentNode('para') ]]</para>
           </td>
           <td>
           <para style="terp_default_8">
