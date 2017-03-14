@@ -37,11 +37,13 @@
                 'sale_production_lot',
                 'stock_picking_valued',
                 'hr_activity_timesheet',
-                'mrp_lot_language'
+                'mrp_lot_language',
+                'account'
                 ],
     'data': ['partner_view.xml',
              'product_view.xml',
              'stock_view.xml',
+             'invoice_view.xml',
              'report/sale_report_view.xml',
              'report/account_invoice_report_view.xml',
              'hr_task_view.xml',
