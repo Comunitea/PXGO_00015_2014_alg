@@ -213,7 +213,7 @@
      <blockTable colWidths="126.0,103.0,103.0,103.0,103.0" style="Header_Order_Reference_Tbl">
       <tr>
         <td>
-          <para style="terp_tblheader_General_Centre">Ref. Pedido</para>
+          <para style="terp_tblheader_General_Centre">Ref Pedido</para>
         </td>
         <td>
           <para style="terp_tblheader_General_Centre">Fecha pedido</para>
