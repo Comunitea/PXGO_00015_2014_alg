@@ -24,6 +24,16 @@ from openerp.osv import fields, orm
 import openerp.addons.decimal_precision as dp
 
 
+class stock_picking(orm.Model):
+
+    _inherit = "stock.picking"
+
+    # Remove states readonly from field
+    _columns = {
+        'origin': fields.char('Documento Origen', size=64, help="Reference of the document", select=True),
+    }
+
+
 class stock_move(orm.Model):
 
     _inherit = "stock.move"
