@@ -30,7 +30,7 @@ class stock_picking(orm.Model):
 
     # Remove states readonly from field
     _columns = {
-        'origin': fields.char('Documento Origen', readonly=False, states={}, size=64, help="Reference of the document", select=True),
+        'origin': fields.char('Source Document', size=64, states={'done':[('readonly', False)], 'cancel':[('readonly',False)]}, help="Reference of the document", select=True),
     }
 
 
