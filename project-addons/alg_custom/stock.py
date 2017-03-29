@@ -26,11 +26,11 @@ import openerp.addons.decimal_precision as dp
 
 class stock_picking(orm.Model):
 
-    _inherit = "stock.picking"
+    _inherit = "stock.picking.out"
 
     # Remove states readonly from field NOT WORKING
     _columns = {
-        'origin': fields.char('Source Document', size=64, states={}, help="Reference of the document", select=True),
+        'origin': fields.char('Source Document', size=64, states={}, readonly=False, help="Reference of the document", select=True),
     }
 
 
