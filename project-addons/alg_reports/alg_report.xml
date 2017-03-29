@@ -45,5 +45,13 @@
                 name="stock.picking.list.out" string="Delivery Slip"
                 rml="alg_reports/report/picking.rml"/>
 
+        <report
+            id="delivery.report_shipping"
+            model="stock.picking"
+            name="custom.shipping"
+            multi="True"
+            rml="alg_reports/report/shipping.rml"
+            string="Delivery order"/>
+
     </data>
 </openerp>
