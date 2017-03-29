@@ -214,7 +214,7 @@
     <blockTable colWidths="126.0,103.0,103.0,103.0,103.0" style="Content_Order_Reference_Table">
       <tr>
         <td>
-          <para style="terp_default_Centre_8">[[ picking.sale_id and o.sale_id.name or '']]</para>
+          <para style="terp_default_Centre_8">[[ picking.sale_id and (o.sale_id.client_order_ref and o.sale_id.client_order_ref or picking.sale_id.name) or '']]</para>
         </td>
         <td>
           <para style="terp_default_Centre_8">[[ formatLang(picking.date,date=True) ]]</para>
