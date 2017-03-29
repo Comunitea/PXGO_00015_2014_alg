@@ -28,9 +28,9 @@ class stock_picking(orm.Model):
 
     _inherit = "stock.picking"
 
-    # Remove states readonly from field
+    # Remove states readonly from field NOT WORKING
     _columns = {
-        'origin': fields.char('Source Document', size=64, states={'done':[('readonly', False)], 'cancel':[('readonly',False)]}, help="Reference of the document", select=True),
+        'origin': fields.char('Source Document', size=64, states={}, help="Reference of the document", select=True),
     }
 
 
