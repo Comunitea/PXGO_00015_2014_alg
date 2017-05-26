@@ -18,6 +18,7 @@
             <field name="arch" type="xml">
                 <field name="ref" position="after">
                     <field name="active"/>
+                    <!-- <button name="remove_duplicates" type="object" /> -->
                 </field>
             </field>
         </record>

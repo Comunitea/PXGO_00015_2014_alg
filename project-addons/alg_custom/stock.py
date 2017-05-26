@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, orm
+from openerp.osv import fields, orm, osv
 import openerp.addons.decimal_precision as dp
 
 
@@ -139,6 +139,34 @@ class stock_move(orm.Model):
 class StockProductionLot(orm.Model):
 
     _inherit = "stock.production.lot"
+
+    def create(self, cr, uid, vals, context=None):
+        domain = [
+            ('name', '=', vals.get('name', '')),
+            ('language', '=', vals.get('language', False)),
+            ('product_id', '=', vals.get('product_id', False))
+        ]
+        lot_ids = self.search(cr, uid, domain, context=context)
+        if lot_ids:
+            raise osv.except_osv(('Error!'),  ('Ya existe un lote con el producto, nombre e idioma seleccionados'))
+        res = super(StockProductionLot, self).create(cr, uid, vals, context=context)
+        return res
+
+    def remove_duplicates(self, cr, uid, ids, context=None):
+        t_move = self.pool.get('stock.move')
+        lot_ids = self.search(cr, uid, [], context=context, order="id asc")
+        for lot in self.browse(cr, uid, lot_ids):
+            domain = [
+                ('name', '=', lot.name),
+                ('language', '=', lot.language.id),
+                ('product_id', '=', lot.product_id.id),
+                ('id', '!=', lot.id)
+            ]
+            duplicated_lot_ids = self.search(cr, uid, domain, context=context)
+            for dupli_lot in self.browse(cr, uid, duplicated_lot_ids):
+                t_move.write(cr, uid, [x.id for x in dupli_lot.move_ids], {'prodlot_id': lot.id})
+                dupli_lot.active = False
+        return
 
     def _get_locations_fom_warehouse(self, cr, uid, warehouse_id, 
                                      context=None):
