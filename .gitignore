@@ -23,3 +23,5 @@ atlassian-ide-plugin.xml
 *~
 devel_*
 *.out
+.mr.developer.cfg
+eggs-custom/
