@@ -38,7 +38,8 @@
                 'stock_picking_valued',
                 'hr_activity_timesheet',
                 'mrp_lot_language',
-                'account'
+                'account',
+                'product_expiry'
                 ],
     'data': ['partner_view.xml',
              'product_view.xml',
