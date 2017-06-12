@@ -129,6 +129,7 @@
     <images/>
   </stylesheet>
   <story>
+  <para style="terp_default_8">[[ setLang(o.partner_id.lang) ]]</para>
   <pto>
   <pto_header>
     <blockTable colWidths="256.0,73.0,59.0,59.0,71.0" repeatRows="1" style="Move_Line_Header">
