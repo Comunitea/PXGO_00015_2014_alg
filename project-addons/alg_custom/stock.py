@@ -249,15 +249,6 @@ class StockProductionLot(orm.Model):
             help="Current quantity of products with this Serial Number available in company warehouses",
             digits_compute=dp.get_precision('Product Unit of Measure')),
         'active': fields.boolean('Active'),
-        # Change datetieme with date. Lot eith hours makes no sense
-        'life_date': fields.date('End of Life Date',
-            help='This is the date on which the goods with this Serial Number may become dangerous and must not be consumed.'),
-        'use_date': fields.date('Best before Date',
-            help='This is the date on which the goods with this Serial Number start deteriorating, without being dangerous yet.'),
-        'removal_date': fields.date('Removal Date',
-            help='This is the date on which the goods with this Serial Number should be removed from the stock.'),
-        'alert_date': fields.date('Alert Date',
-            help="This is the date on which an alert should be notified about the goods with this Serial Number."),
 
     }
 
