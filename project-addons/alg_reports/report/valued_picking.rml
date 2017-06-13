@@ -316,7 +316,7 @@
             <para style="terp_default_Centre_8">[[ (move_lines.prodlot_id and move_lines.prodlot_id.name) or '' ]]</para>
           </td>
           <td>
-            <para style="terp_default_Centre_8">[[ (move_lines.prodlot_id and formatLang(move_lines.prodlot_id.use_date,date = True)) or '' ]]</para>
+            <para style="terp_default_Centre_8">[[ (move_lines.prodlot_id and formatLang(move_lines.prodlot_id.get_use_date(),date = True)) or '' ]]</para>
           </td>
           <td>
             <para style="terp_default_Right_8">[[ formatLang(move_lines.product_qty) ]] [[ move_lines.product_uom.name ]]</para>
@@ -341,7 +341,7 @@
             <para style="terp_default_Centre_8">[[ (move_lines.prodlot_id and move_lines.prodlot_id.name) or '' ]]</para>
           </td>
           <td>
-            <para style="terp_default_Centre_8">[[ (move_lines.prodlot_id and formatLang(move_lines.prodlot_id.use_date,date = True)) or '' ]]</para>
+            <para style="terp_default_Centre_8">[[ (move_lines.prodlot_id and formatLang(move_lines.prodlot_id.get_use_date(),date = True)) or '' ]]</para>
           </td>
           <td>
             <para style="terp_default_Right8">[[ formatLang(move_lines.product_qty) ]] [[ move_lines.product_uom.name ]]</para>

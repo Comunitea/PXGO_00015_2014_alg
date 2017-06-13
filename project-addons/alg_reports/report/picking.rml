@@ -129,7 +129,6 @@
     <images/>
   </stylesheet>
   <story>
-  <para style="terp_default_8">[[ setLang(o.partner_id.lang) ]]</para>
   <pto>
   <pto_header>
     <blockTable colWidths="256.0,73.0,59.0,59.0,71.0" repeatRows="1" style="Move_Line_Header">
@@ -267,8 +266,8 @@
             <para style="terp_default_Centre_9">[[ (move_lines.prodlot_id and move_lines.prodlot_id.name) or '' ]]</para>
           </td>
           <td>
-            <para style="terp_default_9">[[ (move_lines.prodlot_id and
-            formatLang(move_lines.prodlot_id.use_date,date = True)) ]]</para>
+            <para style="terp_default_Centre_9">[[ (move_lines.prodlot_id and
+            formatLang(move_lines.prodlot_id.get_use_date(),date = True)) ]]</para>
 
           </td>
           <!--td>
@@ -295,9 +294,9 @@
           </td>
           <td>
             <para style="terp_default_8">[[ (picking.type == 'in' or removeParentNode('para')) and '' ]][[ move_lines.state == 'done' and 'Received' or move_lines.state]]</para>
-            <para style="terp_default_8">[[ (picking.type == 'out' or
+            <para style="terp_default_Centre_9">[[ (picking.type == 'out' or
             removeParentNode('para')) and '']][[ move_lines.prodlot_id and
-            move_lines.prodlot_id.use_date]]</para>
+            move_lines.prodlot_id.get_use_date()]]</para>
             <para style="terp_default_8">[[ (picking.type == 'internal' or removeParentNode('para')) and '' ]][[ move_lines.state == 'done' and 'Transferred' or move_lines.state]]</para>
           </td>
           <!--td>

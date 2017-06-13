@@ -23,6 +23,8 @@
 from openerp.osv import fields, orm, osv
 import openerp.addons.decimal_precision as dp
 
+from datetime import datetime, timedelta
+import pytz
 
 class stock_picking(orm.Model):
 
@@ -255,3 +257,21 @@ class StockProductionLot(orm.Model):
     _defaults = {
         'active': True
     }
+
+    def get_use_date(self, cr, uid, ids, context=None):
+
+        user_tz = self.pool['res.users'].browse(cr, uid, uid).tz
+        local_tz = pytz.timezone(user_tz)
+
+        def utc_to_local(utc_dt):
+            local_dt = utc_dt.replace(tzinfo=pytz.utc).astimezone(local_tz)
+            return local_tz.normalize(local_dt) # .normalize might be unnecessary
+
+
+        lot = self.browse(cr, uid, ids, context=context)[0]
+        utc_dt = datetime.strptime(lot.use_date,'%Y-%m-%d %H:%M:%S')
+        local_dt = utc_to_local(utc_dt) + timedelta(hours=1)
+        return local_dt.strftime('%Y-%m-%d %H:%M:%S')
+
+
+
