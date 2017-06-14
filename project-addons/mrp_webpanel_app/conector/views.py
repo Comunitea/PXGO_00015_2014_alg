@@ -830,10 +830,24 @@ def dividir(request, id):
                     if exist_lot_ids:
                         new_lot_id = exist_lot_ids[0]
                     else:
-                        new_lot_id = lot_obj.copy(cursor, USER, move.prodlot_id.id,
-                                                  {'product_id': move.product_id.id,
-                                                   'name': move.prodlot_id.name,
-                                                   'language': language})
+                        # Parece ser que el método copy translations falla
+                        # con la restriccion del create de duplicar lotes
+                        # new_lot_id = lot_obj.copy(cursor, USER, move.prodlot_id.id,
+                        #                           {'product_id': move.product_id.id,
+                        #                            'name': move.prodlot_id.name,
+                        #                            'language': language})
+                        vals = {
+                            'product_id': move.product_id.id,
+                            'prefix': move.prodlot_id.prefix,
+                            'ref': move.prodlot_id.ref,
+                            'name': move.prodlot_id.name,
+                            'language': language,
+                            'life_date': move.prodlot_id.life_date,
+                            'use_date': move.prodlot_id.use_date,
+                            'removal_date': move.prodlot_id.removal_date,
+                            'alert_date': move.prodlot_id.removal_date,
+                        }
+                        new_lot_id = lot_obj.create(cursor, USER, vals)
 
                     # Escribimos sobre el move original el nuevo lote o existente, si no duplicamos el movimiento
                     if first_lang:
