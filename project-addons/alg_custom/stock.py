@@ -267,8 +267,9 @@ class StockProductionLot(orm.Model):
             local_dt = utc_dt.replace(tzinfo=pytz.utc).astimezone(local_tz)
             return local_tz.normalize(local_dt) # .normalize might be unnecessary
 
-
         lot = self.browse(cr, uid, ids, context=context)[0]
+        if not lot.use_date:
+            return ''
         utc_dt = datetime.strptime(lot.use_date,'%Y-%m-%d %H:%M:%S')
         local_dt = utc_to_local(utc_dt) + timedelta(hours=1)
         return local_dt.strftime('%Y-%m-%d %H:%M:%S')
