@@ -37,3 +37,59 @@ class MrpProduction(orm.Model):
         'consume_date': fields.related('final_lot_id', 'use_date',
                                        type='date', string='Consume date')
     }
+
+    def _get_subflow_id(self, cr, uid, ids, mo, context=None):
+        res = False
+        if mo.picking_id:
+            self.pool.get('stock.picking').fix_workflow(cr, uid, [mo.picking_id.id], context=context)
+            domain = [('res_type', '=', 'stock.picking'),
+                      ('res_id', '=', mo.picking_id.id)]
+            inst_id = self.pool.get('workflow.instance').search(cr, uid, domain, limit=1, context=context)
+            res = inst_id[0]
+        return res
+
+    # CREADO PARA  CORREGIR EL WORKFLOW DE LAS FACTURA
+    def fix_workflow(self, cr, uid, ids, ctx):
+        print "FIXING WORKFLOW"
+        for mo in self.browse(cr, uid, ids, ctx):
+            fixed = False
+            mo_state = mo.state
+            domain = [('res_type', '=', 'mrp.production'), ('res_id', '=', mo.id)]
+            inst_id = self.pool.get('workflow.instance').search(cr, uid, domain, limit=1, context=ctx)
+            if inst_id:
+                inst_id = inst_id[0]
+
+            if not inst_id:
+                vals = {
+                    'wkf_id': 5,
+                    'uid': uid,
+                    'res_id': mo.id,
+                    'res_type': 'mrp.production',
+                    'state': 'active'
+                }
+                inst_id = self.pool.get('workflow.instance').create(cr, uid, vals, ctx)
+                print "CREADA INSTANCE"
+
+            domain = [('inst_id', '=', inst_id)]
+            item_id = self.pool.get('workflow.workitem').search(cr, uid, domain, limit=1, context=ctx)
+            if not item_id:
+                act_id = 39
+                subflow_id = False
+                state = 'complete'
+                if mo_state == 'draft':
+                    act_id = 37
+                elif mo_state == 'confirmed':
+                    act_id = 38
+                    state = 'runing'
+                    subflow_id = self._get_subflow_id(cr, uid, ids, mo, ctx)
+                elif mo.state == 'ready':
+                    act_id = 39
+                vals = {
+                    'inst_id': inst_id,
+                    'act_id': act_id,  # For validate
+                    'subflow_id': subflow_id,
+                    'state': state
+                }
+                item_id = self.pool.get('workflow.workitem').create(cr, uid, vals, ctx)
+                print "CREADO ITEM"
+        return True

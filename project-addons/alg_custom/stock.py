@@ -35,6 +35,46 @@ class stock_picking(orm.Model):
         'origin': fields.char('Source Document', size=64, states={}, readonly=False, help="Reference of the document", select=True),
     }
 
+class stock_picking_internal(orm.Model):
+
+    _inherit = 'stock.picking'
+
+     # CREADO PARA  CORREGIR EL WORKFLOW DE LAS FACTURA
+    def fix_workflow(self, cr, uid, ids, context=None):
+        print "FIXING WORKFLOW"
+        for picking in self.browse(cr, uid, ids, context):
+            fixed = False
+            picking_state = picking.state
+            domain = [('res_type', '=', 'stock.picking'), ('res_id', '=', picking.id)]
+            inst_id = self.pool.get('workflow.instance').search(cr, uid, domain, limit=1, context=context)
+            if not inst_id:
+                vals = {
+                    'wkf_id': 2,
+                    'uid': uid,
+                    'res_id': picking.id,
+                    'res_type': 'stock.picking',
+                    'state': 'active'
+                }
+                inst_id = self.pool.get('workflow.instance').create(cr, uid, vals, context)
+                print "CREADA INSTANCE"
+                fixed = True
+
+            domain = [('inst_id', '=', inst_id)]
+            item_id = self.pool.get('workflow.workitem').search(cr, uid, domain, limit=1, context=context)
+            if not item_id:
+                act_id = 8
+                if picking_state == 'confirmed':
+                    act_id = 8
+                vals = {
+                    'inst_id': inst_id,
+                    'act_id': act_id,  # For validate
+                    'state': 'complete'
+                }
+                item_id = self.pool.get('workflow.workitem').create(cr, uid, vals, context)
+                print "CREADO ITEM"
+                fixed = True
+        return True
+
 
 class stock_move(orm.Model):
 

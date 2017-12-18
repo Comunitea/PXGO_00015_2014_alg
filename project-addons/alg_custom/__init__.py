@@ -26,3 +26,4 @@ from . import product
 from . import hr_task
 from . import alg_issue
 from . import mrp
+from . import account
