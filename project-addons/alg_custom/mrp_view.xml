@@ -37,10 +37,10 @@
                     <field name="consume_date"/>
                 </field>
 
-              <!--   <header position="inside">
-                    <button name="fix_workflow"  string="Fix Workflow" type="object"/>
+                <header position="inside">
+                    <button name="fix_workflow"  string="Fix Workflow" type="object" invisible="1"/>
                 </header>
- -->            </field>
+            </field>
         </record>
     </data>
 </openerp>
