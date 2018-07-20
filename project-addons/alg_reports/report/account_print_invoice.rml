@@ -78,6 +78,10 @@
       <lineStyle kind="LINEABOVE" colorName="#000000" start="1,2" stop="1,2"/>
       <lineStyle kind="LINEABOVE" colorName="#000000" start="2,2" stop="2,2"/>
     </blockTableStyle>
+    <blockTableStyle id="Table99">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="BOTTOM"/>
+    </blockTableStyle>
     <blockTableStyle id="Table9">
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
@@ -425,5 +429,17 @@
     <para style="terp_default_2">
       <font color="white"> </font>
     </para>
+
+    <para style="terp_header"><b>Información básica de protección de datos</b></para>
+   <para style="terp_default_8">
+              De acuerdo con lo establecido por la normativa vigente en materia de protección de datos, le informamos de que el Responsable de Tratamiento de 
+              sus datos personales es ALGAS ATLÁNTICAS ALGAMAR, S.L.; con dirección en POLÍGONO INDUSTRIAL AMOEDO - 36840 PAZOS DE BORBÉN (PONTEVEDRA) y correo electrónico oficinas@algamar.com.
+              Los datos serán utilizados para prestar el servicio solicitado y la gestión administrativa derivada de la prestación del servicio. Sus datos no se cederán a terceros, salvo por obligación legal.
+              Tiene usted derecho a acceder, rectificar o suprimir los datos erróneos, solicitar la limitación del tratamiento de sus datos así como oponerse o retirar el consentimiento y solicitar la
+              portabilidad de los mismos en cualquier momento. Para ello, ALGAS ATLÁNTICAS ALGAMAR, S.L. dispone de formularios específicos para facilitarle el ejercicio de sus derechos. 
+              Puede presentar su propia solicitud o solicitar nuestros formularios, siempre acompañados de una copia de su DNI para acreditar su identidad.
+              Puede consultar la información adicional y detallada sobre Protección de Datos solicitándola
+              en: oficinas@algamar.com.
+            </para>
   </story>
 </document>
