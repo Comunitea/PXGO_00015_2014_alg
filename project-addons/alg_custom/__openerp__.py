@@ -39,7 +39,8 @@
                 'hr_activity_timesheet',
                 'mrp_lot_language',
                 'account',
-                'product_expiry'
+                'product_expiry',
+                'hr_timesheet'
                 ],
     'data': ['partner_view.xml',
              'product_view.xml',
@@ -50,6 +51,7 @@
              'hr_task_view.xml',
              'alg_issue_view.xml',
              'mrp_view.xml',
+             'hr_timesheet_view.xml',
              'security/ir.model.access.csv'
              ],
     'demo': [],

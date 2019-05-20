@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="search_hr_timesheet" model="ir.ui.view">
+            <field name="model">hr.analytic.timesheet</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+            <field name="arch" type="xml">
+                <field name="account_id" position="after">
+                   <filter string="Last week" name="lastweeks" domain="[
+        ('date','&gt;=',(context_today()+relativedelta(weeks=-1,days=1,weekday=0)).strftime('%%Y-%%m-%%d')),
+        ('date','&lt;',(context_today()+relativedelta(weekday=6)).strftime('%%Y-%%m-%%d'))
+                    ]" help="Journal invoices of the current and the last weeks" />
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

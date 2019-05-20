@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-12 11:57+0000\n"
-"PO-Revision-Date: 2017-01-12 11:57+0000\n"
+"POT-Creation-Date: 2019-05-20 12:20+0000\n"
+"PO-Revision-Date: 2019-05-20 12:20+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -68,6 +68,11 @@ msgid "Lot"
 msgstr "Lote"
 
 #. module: alg_custom
+#: model:ir.model,name:alg_custom.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: alg_custom
 #: field:stock.production.lot,warehouse_id:0
 msgid "Warehouse"
 msgstr "Almacén"
@@ -108,19 +113,32 @@ msgid "Machine Issues"
 msgstr "Incidencia en máquina"
 
 #. module: alg_custom
-#: field:mrp.production,total_hours:0
-msgid "Total Hours"
-msgstr "Total Hours"
-
-#. module: alg_custom
 #: field:alg.issue,name:0
 msgid "Description"
 msgstr "Descripción"
 
 #. module: alg_custom
+#: view:hr.analytic.timesheet:0
+msgid "Last week"
+msgstr "Última semana"
+
+#. module: alg_custom
+#: view:account.invoice:0
+#: view:mrp.production:0
+#: view:stock.picking:0
+#: view:stock.picking.out:0
+msgid "Fix Workflow"
+msgstr "Fix Workflow"
+
+#. module: alg_custom
 #: model:ir.model,name:alg_custom.model_stock_production_lot
 msgid "Serial Number"
 msgstr "Nº de serie"
+
+#. module: alg_custom
+#: view:hr.analytic.timesheet:0
+msgid "Journal invoices of the current and the last weeks"
+msgstr "Journal invoices of the current and the last weeks"
 
 #. module: alg_custom
 #: model:ir.model,name:alg_custom.model_sale_report
@@ -200,6 +218,11 @@ msgid "Issue type"
 msgstr "Tipo incidencia"
 
 #. module: alg_custom
+#: model:ir.model,name:alg_custom.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: alg_custom
 #: field:product.product,clean_part:0
 msgid "Clean Part product"
 msgstr "Producto del parte de limpieza"
@@ -209,6 +232,11 @@ msgstr "Producto del parte de limpieza"
 #: view:product.product:0
 msgid "Lotes"
 msgstr "Lotes"
+
+#. module: alg_custom
+#: model:ir.model,name:alg_custom.model_stock_picking_out
+msgid "Delivery Orders"
+msgstr "Albaranes de salida"
 
 #. module: alg_custom
 #: view:alg.issue:0
